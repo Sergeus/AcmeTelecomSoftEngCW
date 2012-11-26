@@ -1,11 +1,11 @@
 package com.acmetelecom;
 
-import org.joda.time.LocalDateTime;
+import com.acmetelecom.time.TimeStamp.Time;
 
 class DaytimePeakPeriod {
 
-    public boolean offPeak(LocalDateTime time) {
-        int hour = time.getHourOfDay();
+    public boolean offPeak(Time time) {
+        int hour = time.getHour();
         return hour < 7 || hour >= 19;
     }
 }

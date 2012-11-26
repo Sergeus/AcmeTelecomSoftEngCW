@@ -5,3 +5,6 @@
 *.ear
 
 [Bb]in/
+
+# Socha scratch files #
+*[Ss]cratch*

@@ -1,8 +1,7 @@
 package com.acmetelecom;
 
-import org.joda.time.Duration;
-import org.joda.time.LocalDateTime;
-import org.joda.time.Period;
+import com.acmetelecom.time.TimeStamp;
+import com.acmetelecom.time.TimeStamp.Time;
 
 public class Call {
     private CallEvent start;
@@ -18,19 +17,18 @@ public class Call {
     }
 
     public int durationSeconds() {
-    	Duration d = Period.fieldDifference(start.time(), end.time()).toStandardDuration();
-    	return d.toStandardSeconds().getSeconds();
+    	return TimeStamp.getDurationInSeconds(start.getTimeStamp(), end.getTimeStamp()).getSeconds();
     }
 
     public String date() {
-        return start.time().toString();
+        return start.getTimeStamp().getDate().toString();
     }
 
-    public LocalDateTime startTime() {
-        return start.time();
+    public Time startTime() {
+        return start.getTimeStamp().getTime();
     }
 
-    public LocalDateTime endTime() {
-        return end.time();
+    public Time endTime() {
+        return end.getTimeStamp().getTime();
     }
 }
