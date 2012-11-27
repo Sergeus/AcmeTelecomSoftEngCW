@@ -1,7 +1,7 @@
-package test.fit;
+package fit;
 
 
-import test.fit.fakes.FakeRunner;
+import fit.fakes.FakeRunner;
 
 /*
  * Unfortunately, FIT forces you to use static (e.g. global) variables to

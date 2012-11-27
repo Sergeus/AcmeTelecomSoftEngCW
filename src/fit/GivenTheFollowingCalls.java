@@ -1,7 +1,7 @@
-package test.fit;
+package fit;
 
 
-import test.fit.fakes.FakeCall;
+import fit.fakes.FakeCall;
 
 import fit.ColumnFixture;
 

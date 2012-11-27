@@ -1,4 +1,4 @@
-package com.acmetelecom;
+package acmetelecom;
 
 import java.math.BigDecimal;
 

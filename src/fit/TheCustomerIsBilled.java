@@ -1,4 +1,4 @@
-package test.fit;
+package fit;
 
 
 import fit.ColumnFixture;

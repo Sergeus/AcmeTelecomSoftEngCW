@@ -1,4 +1,4 @@
-package com.acmetelecom;
+package acmetelecom;
 
 import javax.swing.text.DateFormatter;
 import java.math.BigDecimal;

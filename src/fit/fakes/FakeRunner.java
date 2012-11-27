@@ -1,6 +1,6 @@
-package test.fit.fakes;
+package fit.fakes;
 
-import com.acmetelecom.BillingSystem;
+import acmetelecom.BillingSystem;
 
 public class FakeRunner {
 

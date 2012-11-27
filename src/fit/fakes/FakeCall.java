@@ -1,4 +1,4 @@
-package test.fit.fakes;
+package fit.fakes;
 
 public class FakeCall {
 	
