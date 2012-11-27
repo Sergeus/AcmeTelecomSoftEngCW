@@ -1,11 +1,13 @@
 package com.acmetelecom;
 
+import com.acmetelecom.time.TimeStamp;
+
 public abstract class CallEvent {
     private String caller;
     private String callee;
-    private long time;
+    private TimeStamp time;
 
-    public CallEvent(String caller, String callee, long timeStamp) {
+    public CallEvent(String caller, String callee, TimeStamp timeStamp) {
         this.caller = caller;
         this.callee = callee;
         this.time = timeStamp;
@@ -19,7 +21,7 @@ public abstract class CallEvent {
         return callee;
     }
 
-    public long time() {
+    public TimeStamp getTimeStamp() {
         return time;
     }
 }
