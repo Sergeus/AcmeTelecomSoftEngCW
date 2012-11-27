@@ -6,7 +6,7 @@
 	
 	<path id="compile.classpath">
 		<fileset dir="lib/" />
-		<pathelement location="build/acmetelecom.jar" />
+		<pathelement location="build/com.jar" />
 	</path>
 
 	<path id="run.classpath">
@@ -29,7 +29,7 @@
 	</target>
 
     <target name="jars">
-        <compile-module name="acmetelecom" />
+        <compile-module name="com" />
     	<compile-module name="fit" />
     </target>
 	

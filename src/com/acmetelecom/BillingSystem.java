@@ -1,4 +1,4 @@
-package acmetelecom;
+package com.acmetelecom;
 
 import com.acmetelecom.customer.CentralCustomerDatabase;
 import com.acmetelecom.customer.CentralTariffDatabase;
@@ -12,7 +12,7 @@ import java.util.*;
 public class BillingSystem {
 
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
-    private HashMap<Customer, String> billList = new HashMap<Customer, String>();
+    private HashMap<String, String> billList = new HashMap<String, String>();
 
     public void callInitiated(String caller, String callee) {
         callLog.add(new CallStart(caller, callee));
@@ -27,7 +27,7 @@ public class BillingSystem {
         for (Customer customer : customers) {
             createBillFor(customer);
         }
-        callLog.clear();
+        //callLog.clear(); //Replaced with clearLog() function
     }
 
     private void createBillFor(Customer customer) {
@@ -74,20 +74,24 @@ public class BillingSystem {
         }
 
         // ADDED OVG
-        billList.put(customer, MoneyFormatter.penceToPounds(totalBill));
+        billList.put(customer.getPhoneNumber(), MoneyFormatter.penceToPounds(totalBill));
         
         new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
     }
     
     // ADDED OVG
     public String getBillFor(String phoneNumber) {
-    	for (Customer customer : billList.keySet()) {
-			if (customer.getPhoneNumber() == phoneNumber) {
+    	for (String customer : billList.keySet()) {
+			if (customer.equals(phoneNumber)) {
 				return billList.get(customer);
 			}
 		}
     	
     	return "Customer not found!";
+    }
+    
+    public void clearCallLog() {
+    	callLog.clear();
     }
 
     static class LineItem {

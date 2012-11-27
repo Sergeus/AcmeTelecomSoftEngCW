@@ -3,7 +3,8 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/acmetelecom" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/fit" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="fit" level="project" />

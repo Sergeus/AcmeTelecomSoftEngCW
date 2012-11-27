@@ -1,7 +1,7 @@
 package fit;
 
 
-import fit.fakes.FakeRunner;
+import com.acmetelecom.fakes.FakeRunner;
 
 /*
  * Unfortunately, FIT forces you to use static (e.g. global) variables to

@@ -1,6 +1,6 @@
-package fit.fakes;
+package com.acmetelecom.fakes;
 
-import acmetelecom.BillingSystem;
+import com.acmetelecom.BillingSystem;
 
 public class FakeRunner {
 
@@ -25,8 +25,7 @@ public class FakeRunner {
 	
 	public String createBills(String customer) {
 		this.billingSystem.createCustomerBills();
-		//TODO return this.billingSystem.findTotalBillFor(customer);
-		return "placeholder";
+		return this.billingSystem.getBillFor(customer);
 	}
 	
 	private void sleepSeconds(int n) throws InterruptedException {

@@ -1,4 +1,4 @@
-package fit.fakes;
+package com.acmetelecom.fakes;
 
 public class FakeCall {
 	

@@ -5,14 +5,14 @@ import fit.ColumnFixture;
 
 
 public class TheCustomerIsBilled extends ColumnFixture {
-	public String customer;
+	public String Customer;
 
 	@Override
 	public void reset() {
-		customer = null;
+		Customer = null;
 	}
 	
 	public String Billed() {
-		return "Total = " + SystemUnderTest.billing.createBills(customer);
+		return "Total = " + SystemUnderTest.billing.createBills(Customer);
 	}
 }
