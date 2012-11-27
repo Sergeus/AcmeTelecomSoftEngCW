@@ -12,6 +12,7 @@ import java.util.*;
 public class BillingSystem {
 
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
+    private HashMap<Customer, String> billList = new HashMap<Customer, String>();
 
     public void callInitiated(String caller, String callee) {
         callLog.add(new CallStart(caller, callee));
@@ -72,7 +73,21 @@ public class BillingSystem {
             items.add(new LineItem(call, callCost));
         }
 
+        // ADDED OVG
+        billList.put(customer, MoneyFormatter.penceToPounds(totalBill));
+        
         new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
+    }
+    
+    // ADDED OVG
+    public String getBillFor(String phoneNumber) {
+    	for (Customer customer : billList.keySet()) {
+			if (customer.getPhoneNumber() == phoneNumber) {
+				return billList.get(customer);
+			}
+		}
+    	
+    	return "Customer not found!";
     }
 
     static class LineItem {
