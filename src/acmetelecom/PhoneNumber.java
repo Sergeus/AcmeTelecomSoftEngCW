@@ -9,14 +9,14 @@ private String number;
 private String countrycode;
 private String stem;
 
-public PhoneNumber(String number, String countrycode, String stem) {
+public PhoneNumber(String number) {
 	this.number = number;
-	this.countrycode = countrycode;
-	this.stem = stem;
+	this.countrycode = number.substring(0, 2);
+	this.stem = number.substring(2);
 }
 
 public boolean isValid() {
-	if (number.length() == 12 && countrycode.length() == 2 && stem.length() == 9) {
+	if (number.length() == 12 && countrycode.length() == 2 && stem.length() == 10) {
 		return true;
 	}
 	else return false;
