@@ -1,13 +1,13 @@
 package com.acmetelecom;
 
-import com.acmetelecom.time.TimeStamp;
+import org.joda.time.LocalDateTime;
 
 public class CallStart extends CallEvent {
     public CallStart(String caller, String callee) {
-        super(caller, callee, TimeStamp.now());
+        super(caller, callee, LocalDateTime.now());
     }
     
-    public CallStart(String caller, String callee, TimeStamp timeStamp) {
+    public CallStart(String caller, String callee, LocalDateTime timeStamp) {
         super(caller, callee, timeStamp);
     }
 }
