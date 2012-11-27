@@ -1,13 +1,13 @@
 package com.acmetelecom;
 
-import org.joda.time.LocalDateTime;
+import com.acmetelecom.time.TimeStamp;
 
 public abstract class CallEvent {
     private String caller;
     private String callee;
-    private LocalDateTime time;
+    private TimeStamp time;
 
-    public CallEvent(String caller, String callee, LocalDateTime timeStamp) {
+    public CallEvent(String caller, String callee, TimeStamp timeStamp) {
         this.caller = caller;
         this.callee = callee;
         this.time = timeStamp;
@@ -21,7 +21,7 @@ public abstract class CallEvent {
         return callee;
     }
 
-    public LocalDateTime time() {
+    public TimeStamp getTimeStamp() {
         return time;
     }
 }
