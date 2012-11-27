@@ -5,4 +5,5 @@
 *.ear
 
 [Bb]in/
+[Bb]uild/
 *.DS_Store
