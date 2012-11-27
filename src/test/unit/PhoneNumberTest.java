@@ -11,7 +11,13 @@ public class PhoneNumberTest {
 	 */
 	@Test
 	public void testNumberLength() {
-		PhoneNumber phone1 = new PhoneNumber("447788991122");
-		Assert.assertTrue(phone1.isValid());
+		PhoneNumber phone1;
+		try {
+			phone1 = new PhoneNumber("447788991122");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error: Bad number");
+			Assert.assertTrue(false);
+		}
 	}
 }

@@ -7,19 +7,13 @@ package acmetelecom;
 public class PhoneNumber {
 private String number;
 private String countrycode;
-private String stem;
 
-public PhoneNumber(String number) {
+public PhoneNumber(String number) throws Exception {
 	this.number = number;
-	this.countrycode = number.substring(0, 2);
-	this.stem = number.substring(2);
-}
-
-public boolean isValid() {
-	if (number.length() == 12 && countrycode.length() == 2 && stem.length() == 10) {
-		return true;
+	this.countrycode = this.number.substring(0, 2);
+	if (number.length() != 12 || countrycode.length() != 2) {
+		throw new Exception();
 	}
-	else return false;
 }
 
 public String getNumber() {
@@ -30,20 +24,12 @@ public String getCountrycode() {
 	return countrycode;
 }
 
-public String getStem() {
-	return stem;
-}
-
 public void setNumber(String number) {
 	this.number = number;
 }
 
 public void setCountrycode(String countrycode) {
 	this.countrycode = countrycode;
-}
-
-public void setStem(String stem) {
-	this.stem = stem;
 }
 
 }
