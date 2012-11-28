@@ -1,41 +1,36 @@
 <project name="AcmeTelecomSoftEngCW" default="full-build">
 	<property name="product" value="AcmeTelecomSoftEngCW" />
 	
-	<path id="compile.classpath">
+	<path id="lib.path">
 		<fileset dir="lib/" />
-		<pathelement location="build/com.jar" />
 	</path>
-
-	<path id="run.classpath">
-		<pathelement location="build/fit.jar" />
-		<path refid="compile.classpath" />
+	
+	<path id="fit.path">
+		<path refid="lib.path" />
+		<fileset dir="build/" />
 	</path>
-    
-	<target name="full-build" description="Builds everything from scratch" depends="clean, JUnit-test, fit-test" />
+	    
+	<target name="full-build" description="Builds everything from scratch" depends="clean, unit-test, fit-test" />
     
 	<target name="clean" description="Removes all build artefacts">
 		<delete dir="build" />
 		<delete dir="reports" />
-	</target>
+	</target>	
 	
-	<target name="JUnit-test">
+	<target name="unit-test" depends="jars">
 		<junit printsummary="yes">
 			<classpath>
-			    <pathelement location="lib/JUnit4/junit-4.11.jar"/>
+				<path refid="fit.path" />
 			</classpath>
 			
 			<formatter type="xml"/>
-		
-			<batchtest fork="no">
-				<fileset dir="src/test/unit/">
-			    	<include name="*Test*.java"/>
-			    </fileset>
-			</batchtest>
+			
+			<test name="CallTest"/>
 		</junit>
-	</target>	
+	</target>
 	
 	<target name="fit-test" depends="jars">
-		<java classname="fitlibrary.runner.FolderRunner" classpathref="run.classpath">
+		<java classname="fitlibrary.runner.FolderRunner" classpathref="fit.path">
 			<arg value="fit" />
 			<arg value="reports" />
 		</java>
@@ -44,6 +39,7 @@
     <target name="jars">
         <compile-module name="com" />
     	<compile-module name="fit" />
+    	<compile-module name="test" />
     </target>
 	
 	<macrodef name="compile-module">
@@ -52,10 +48,10 @@
 		<sequential>
 			<mkdir dir="build/classes/@{name}" />
 
-			<javac srcdir="src/@{name}" destdir="build/classes/@{name}" debug="${debug}" classpathref="compile.classpath" />
+			<javac srcdir="src/@{name}" destdir="build/classes/" debug="${debug}" classpathref="lib.path" />
 
 			<jar jarfile="build/@{name}.jar">
-				<fileset dir="build/classes/@{name}" />
+				<fileset dir="build/classes/" />
 				<fileset dir="src/@{name}" />
 			</jar>
 		</sequential>
