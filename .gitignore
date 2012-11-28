@@ -7,3 +7,5 @@
 [Bb]in/
 [Bb]uild/
 *.DS_Store
+[Rr]eports/
+.settings/

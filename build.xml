@@ -17,15 +17,20 @@
 		<delete dir="reports" />
 	</target>	
 	
-	<target name="unit-test" depends="jars">
+	<target name="unit-test">
 		<junit printsummary="yes">
 			<classpath>
-				<path refid="fit.path" />
+				<path refid="lib.path" />
+				<pathelement location="classes/"/>
 			</classpath>
 			
 			<formatter type="xml"/>
 			
-			<test name="CallTest"/>
+			<batchtest>
+				<fileset dir="build/classes" >
+					<include name="test/unit/*Test.class" />
+				</fileset>
+			</batchtest>
 		</junit>
 	</target>
 	
@@ -39,7 +44,6 @@
     <target name="jars">
         <compile-module name="com" />
     	<compile-module name="fit" />
-    	<compile-module name="test" />
     </target>
 	
 	<macrodef name="compile-module">
