@@ -27,8 +27,8 @@
 			<formatter type="xml"/>
 			
 			<batchtest>
-				<fileset dir="build/classes" >
-					<include name="test/unit/*Test.class" />
+				<fileset dir="src/" >
+					<include name="test/unit/*Test.java" />
 				</fileset>
 			</batchtest>
 		</junit>
