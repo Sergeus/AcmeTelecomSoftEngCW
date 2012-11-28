@@ -9,6 +9,7 @@ import com.acmetelecom.CallEnd;
 import com.acmetelecom.CallStart;
 import com.acmetelecom.time.TimeStamp;
 
+@SuppressWarnings("deprecation")
 public class CallTest {
 	
 	private String caller = "0000";
