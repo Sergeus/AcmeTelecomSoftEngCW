@@ -1,5 +1,8 @@
-package com.acmetelecom;
+package com.acmetelecom.billing;
 
+import com.acmetelecom.HtmlPrinter;
+import com.acmetelecom.MoneyFormatter;
+import com.acmetelecom.Printer;
 import com.acmetelecom.customer.Customer;
 
 import java.util.List;

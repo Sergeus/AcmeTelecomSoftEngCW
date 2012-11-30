@@ -4,16 +4,16 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.acmetelecom.Call;
-import com.acmetelecom.CallEnd;
-import com.acmetelecom.CallStart;
+import com.acmetelecom.calls.Call;
+import com.acmetelecom.calls.CallEnd;
+import com.acmetelecom.calls.CallStart;
 import com.acmetelecom.time.TimeStamp;
 
 @SuppressWarnings("deprecation")
 public class CallTest {
 	
-	private String caller = "0000";
-	private String callee = "1111";
+	private String caller = "440000000000";
+	private String callee = "441000000000";
 	
 	TimeStamp time = TimeStamp.getInstance(2000, 1, 1, 0, 0, 0, 0);
 	TimeStamp timePlusTen = TimeStamp.getInstance(2000, 1, 1, 0, 0, 10, 0);

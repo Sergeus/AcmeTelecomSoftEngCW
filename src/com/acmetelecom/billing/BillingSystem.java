@@ -1,5 +1,12 @@
-package com.acmetelecom;
+package com.acmetelecom.billing;
 
+import com.acmetelecom.DaytimePeakPeriod;
+import com.acmetelecom.MoneyFormatter;
+import com.acmetelecom.PhoneNumber;
+import com.acmetelecom.calls.Call;
+import com.acmetelecom.calls.CallEnd;
+import com.acmetelecom.calls.CallEvent;
+import com.acmetelecom.calls.CallStart;
 import com.acmetelecom.customer.CentralCustomerDatabase;
 import com.acmetelecom.customer.CentralTariffDatabase;
 import com.acmetelecom.customer.Customer;
@@ -14,11 +21,23 @@ public class BillingSystem {
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
     private HashMap<String, String> billList = new HashMap<String, String>();
 
-    public void callInitiated(String caller, String callee) {
+    @Deprecated
+    public void callInitiated(String caller, String callee){
         callLog.add(new CallStart(caller, callee));
     }
 
-    public void callCompleted(String caller, String callee) {
+    @Deprecated
+    public void callCompleted(String caller, String callee){
+        callLog.add(new CallEnd(caller, callee));
+    }
+    
+    @Deprecated
+    public void callInitiated(PhoneNumber caller, PhoneNumber callee) {
+        callLog.add(new CallStart(caller, callee));
+    }
+
+    @Deprecated
+    public void callCompleted(PhoneNumber caller, PhoneNumber callee) {
         callLog.add(new CallEnd(caller, callee));
     }
 

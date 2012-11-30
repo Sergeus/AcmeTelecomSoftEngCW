@@ -1,6 +1,6 @@
 package com.acmetelecom.fakes;
 
-import com.acmetelecom.BillingSystem;
+import com.acmetelecom.billing.BillingSystem;
 
 public class FakeRunner {
 

@@ -2,7 +2,7 @@ package com.acmetelecom;
 
 import com.acmetelecom.time.TimeStamp.Time;
 
-class DaytimePeakPeriod {
+public class DaytimePeakPeriod {
 
     public boolean offPeak(Time time) {
         int hour = time.getHour();

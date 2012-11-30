@@ -5,25 +5,21 @@ public class PhoneNumber {
 	private Long number;
 	private Long countryCode;
 	
-	public PhoneNumber(String fullNumber) throws NumberFormatException, Exception{
+	public PhoneNumber(String fullNumber){
 		this(fullNumber.substring(0, 2), fullNumber.substring(2));
 	}
 
-	public PhoneNumber(String countryCode, String number) throws NumberFormatException, Exception{
+	public PhoneNumber(String countryCode, String number){
 	
 		// Checks that arguments are right length
 		if (number.length() != 10 || countryCode.length() != 2) {
 			//TODO: Change to proper exception
-			throw new Exception();
+			throw new IllegalArgumentException();
 		}
 		
 		// Checks that numbers are indeed numbers
-		try{
-			this.number = Long.parseLong(number);
-			this.countryCode = Long.parseLong(countryCode);
-		} catch (NumberFormatException e) {
-			throw e;
-		}
+		this.number = Long.parseLong(number);
+		this.countryCode = Long.parseLong(countryCode);
 	
 	}
 
@@ -33,6 +29,11 @@ public class PhoneNumber {
 	
 	public String getCountrycode() {
 		return countryCode.toString();
+	}
+	
+	@Override
+	public String toString() {
+		return countryCode.toString() + number.toString();
 	}
 
 }
