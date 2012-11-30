@@ -1,23 +1,51 @@
 package test.unit;
-import acmetelecom.PhoneNumber;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import com.acmetelecom.PhoneNumber;
 
 public class PhoneNumberTest {
 
-	/**
-	 * Number is 12 digits
-	 */
-	@Test
-	public void testNumberLength() {
-		PhoneNumber phone1;
-		try {
-			phone1 = new PhoneNumber("447788991122");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("Error: Bad number");
-			Assert.assertTrue(false);
-		}
+	@SuppressWarnings("unused")
+	@Test(expected = Exception.class) 
+	public void testLenthException() throws NumberFormatException, Exception{
+		PhoneNumber p = new PhoneNumber("440000000000000");
 	}
+	
+	@SuppressWarnings("unused")
+	@Test(expected = Exception.class) 
+	public void testCountryCodeLenthException() throws NumberFormatException, Exception{
+		PhoneNumber p = new PhoneNumber("444", "0000000000");
+	}
+	
+	@SuppressWarnings("unused")
+	@Test(expected = Exception.class) 
+	public void testNumberLenthException() throws NumberFormatException, Exception{
+		PhoneNumber p = new PhoneNumber("44", "000000000000000");
+	}
+	
+	@SuppressWarnings("unused")
+	@Test(expected = NumberFormatException.class) 
+	public void testParsingException() throws NumberFormatException, Exception{
+		PhoneNumber p = new PhoneNumber("AA0000000000");
+	}
+	
+	@SuppressWarnings("unused")
+	@Test(expected = NumberFormatException.class) 
+	public void testCountryCodeParsingException() throws NumberFormatException, Exception{
+		PhoneNumber p = new PhoneNumber("AA", "0000000000");
+	}
+	
+	@SuppressWarnings("unused")
+	@Test(expected = NumberFormatException.class) 
+	public void testNumberParsingException() throws NumberFormatException, Exception{
+		PhoneNumber p = new PhoneNumber("44", "ABCDEFGHIJ");
+	}
+	
+	@SuppressWarnings("unused")
+	@Test 
+	public void testTwoArgConstructor() throws NumberFormatException, Exception{
+		PhoneNumber p = new PhoneNumber("44", "0000000000");
+	}
+	
 }
