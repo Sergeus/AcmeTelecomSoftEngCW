@@ -57,7 +57,7 @@ public class BillingSystem {
         callLog.add(new CallEnd(caller, callee, timeStamp));
     }
     
-    public void createCustomerBills() {
+    public void createCustomerBills() throws Exception {
         List<Customer> customers = database.getCustomers();
         for (Customer customer : customers) {
             createBillFor(customer);
@@ -80,7 +80,7 @@ public class BillingSystem {
         throw new Exception("Customer " + customer + " does not exist in customer database");
     }
 
-    private void createBillFor(Customer customer) {
+    private void createBillFor(Customer customer){
         List<CallEvent> customerEvents = new ArrayList<CallEvent>();
         
         //Check all callers are valid customers
@@ -120,6 +120,16 @@ public class BillingSystem {
             Time startTime = call.startTime();
             Time endTime = call.endTime();
             
+            //This is bad code
+            if (endTime.isBefore(startTime)){
+            	endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
+            }
+            
+            //This is bad code
+            if (peakEnd.isBefore(peakStart)) {
+				peakEnd = new Time(peakEnd.getHour()+24, peakEnd.getMin(), peakEnd.getSecond());
+			}
+            
     		long peakSeconds = 0;
     		long offpeakSeconds = 0;
     		
@@ -127,6 +137,7 @@ public class BillingSystem {
     			if (endTime.isBefore(peakEnd)) {
     				peakSeconds += Duration.inSeconds(startTime, endTime);
     			} else {
+    				//TODO: Not sure if this is correct. Please check
     				peakSeconds += Duration.inSeconds(startTime, peakEnd);
     				offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
     			}
@@ -136,7 +147,13 @@ public class BillingSystem {
     				offpeakSeconds += Duration.inSeconds(startTime, endTime);
     			} else {
     				offpeakSeconds += Duration.inSeconds(startTime, peakStart);
-    				peakSeconds += Duration.inSeconds(peakStart, endTime);
+    				
+    				if (endTime.isAfter(peakEnd)) {
+						peakSeconds += Duration.inSeconds(peakStart, peakEnd);
+						offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
+					} else {
+						peakSeconds += Duration.inSeconds(peakStart, endTime);
+					}
     			}
     		}
             
