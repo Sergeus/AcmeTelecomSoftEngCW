@@ -1,6 +1,5 @@
 package com.acmetelecom.billing;
 
-import com.acmetelecom.DaytimePeakPeriod;
 import com.acmetelecom.MoneyFormatter;
 import com.acmetelecom.PhoneNumber;
 import com.acmetelecom.calls.Call;
@@ -20,6 +19,10 @@ public class BillingSystem {
 
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
     private HashMap<String, String> billList = new HashMap<String, String>();
+    
+    public BillingSystem() {
+		//TODO: Should BillingSystem be a singleton?
+	}
 
     @Deprecated
     public void callInitiated(String caller, String callee){
@@ -31,12 +34,10 @@ public class BillingSystem {
         callLog.add(new CallEnd(caller, callee));
     }
     
-    @Deprecated
     public void callInitiated(PhoneNumber caller, PhoneNumber callee) {
         callLog.add(new CallStart(caller, callee));
     }
 
-    @Deprecated
     public void callCompleted(PhoneNumber caller, PhoneNumber callee) {
         callLog.add(new CallEnd(caller, callee));
     }
@@ -51,6 +52,8 @@ public class BillingSystem {
 
     private void createBillFor(Customer customer) {
         List<CallEvent> customerEvents = new ArrayList<CallEvent>();
+        
+        //Check all callers are valid customers
         for (CallEvent callEvent : callLog) {
             if (callEvent.getCaller().equals(customer.getPhoneNumber())) {
                 customerEvents.add(callEvent);
