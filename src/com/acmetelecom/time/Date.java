@@ -1,6 +1,6 @@
 package com.acmetelecom.time;
 
-public class Date implements DateIface{
+public class Date{
 	
 	private final int year, month, day;
 	

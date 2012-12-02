@@ -15,6 +15,8 @@ import com.acmetelecom.customer.CentralTariffDatabase;
 import com.acmetelecom.customer.Customer;
 import com.acmetelecom.customer.CustomerDatabase;
 import com.acmetelecom.customer.Tariff;
+import com.acmetelecom.time.Duration;
+import com.acmetelecom.time.Time;
 import com.acmetelecom.time.TimeStamp;
 
 public class BillingSystem {
@@ -113,13 +115,33 @@ public class BillingSystem {
 
             BigDecimal cost;
 
-            DaytimePeakPeriod peakPeriod = DaytimePeakPeriod.getInstance();
-            if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
-                cost = new BigDecimal(call.durationSeconds()).multiply(tariff.offPeakRate());
-            } else {
-                cost = new BigDecimal(call.durationSeconds()).multiply(tariff.peakRate());
-            }
-
+            Time peakStart = DaytimePeakPeriod.getPeakStart();
+            Time peakEnd = DaytimePeakPeriod.getPeakEnd();
+            Time startTime = call.startTime();
+            Time endTime = call.endTime();
+            
+    		long peakSeconds = 0;
+    		long offpeakSeconds = 0;
+    		
+    		if (startTime.isBetween(peakStart, peakEnd)){
+    			if (endTime.isBefore(peakEnd)) {
+    				peakSeconds += Duration.inSeconds(startTime, endTime);
+    			} else {
+    				peakSeconds += Duration.inSeconds(startTime, peakEnd);
+    				offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
+    			}
+    			
+    		} else {
+    			if (endTime.isBefore(peakStart)) {
+    				offpeakSeconds += Duration.inSeconds(startTime, endTime);
+    			} else {
+    				offpeakSeconds += Duration.inSeconds(startTime, peakStart);
+    				peakSeconds += Duration.inSeconds(peakStart, endTime);
+    			}
+    		}
+            
+            cost = new BigDecimal(peakSeconds).multiply(tariff.peakRate()).add(new BigDecimal(offpeakSeconds).multiply(tariff.offPeakRate()));
+            
             cost = cost.setScale(0, RoundingMode.HALF_UP);
             BigDecimal callCost = cost;
             totalBill = totalBill.add(callCost);

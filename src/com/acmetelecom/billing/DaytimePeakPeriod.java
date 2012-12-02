@@ -25,22 +25,15 @@ public class DaytimePeakPeriod {
 		startTime = time;
 	}
 	
-	/**
-	 * Returns (immutable) start time
-	 * @return Time
-	 */
+	public static void setPeakEnd(Time time){
+		endTime = time;
+	}
+	
 	public static Time getPeakStart(){
 		return startTime;
 	}
 	
-	public static void setPeakEnd(Time time){
-		endTime = time;
-	}
 
-	/**
-	 * Returns (immutable) end time
-	 * @return Time
-	 */
 	public static Time getPeakEnd(){
 		return endTime;
 	}
@@ -49,4 +42,5 @@ public class DaytimePeakPeriod {
         return (time.getHour() < startTime.getHour() ||
         		 time.getHour() >= endTime.getHour());
     }
+    
 }

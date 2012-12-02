@@ -1,6 +1,6 @@
 package com.acmetelecom.calls;
 
-import com.acmetelecom.time.TimeStamp;
+import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
 
 public class Call {
@@ -20,8 +20,8 @@ public class Call {
         return start.getCaller();
     }
 
-    public int durationSeconds() {
-    	return TimeStamp.getDuration(start.getTimeStamp(), end.getTimeStamp()).getSeconds();
+    public long durationSeconds() {
+    	return Duration.inSeconds(start.getTimeStamp(), end.getTimeStamp());
     }
 
     public String date() {
