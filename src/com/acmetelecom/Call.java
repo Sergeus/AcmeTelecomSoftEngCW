@@ -1,7 +1,12 @@
 package com.acmetelecom;
 
-import com.acmetelecom.time.TimeStamp;
-import com.acmetelecom.time.TimeStamp.Time;
+import javax.swing.text.DateFormatter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Call {
     private CallEvent start;
@@ -17,18 +22,18 @@ public class Call {
     }
 
     public int durationSeconds() {
-    	return TimeStamp.getDurationInSeconds(start.getTimeStamp(), end.getTimeStamp()).getSeconds();
+        return (int) (((end.time() - start.time()) / 1000));
     }
 
     public String date() {
-        return start.getTimeStamp().getDate().toString();
+        return SimpleDateFormat.getInstance().format(new Date(start.time()));
     }
 
-    public Time startTime() {
-        return start.getTimeStamp().getTime();
+    public Date startTime() {
+        return new Date(start.time());
     }
 
-    public Time endTime() {
-        return end.getTimeStamp().getTime();
+    public Date endTime() {
+        return new Date(end.time());
     }
 }
