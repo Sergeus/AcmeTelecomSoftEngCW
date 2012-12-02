@@ -1,7 +1,7 @@
 package com.acmetelecom.calls;
 
 import com.acmetelecom.time.TimeStamp;
-import com.acmetelecom.time.TimeStamp.Time;
+import com.acmetelecom.time.Time;
 
 public class Call {
     private CallEvent start;

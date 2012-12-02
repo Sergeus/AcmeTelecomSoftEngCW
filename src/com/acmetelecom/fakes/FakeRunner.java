@@ -1,13 +1,14 @@
 package com.acmetelecom.fakes;
 
 import com.acmetelecom.billing.BillingSystem;
+import com.acmetelecom.billing.DaytimePeakPeriod;
 
 public class FakeRunner {
 
 	BillingSystem billingSystem;
 
 	public FakeRunner() {
-		this.billingSystem = new BillingSystem();
+		this.billingSystem = new BillingSystem(DaytimePeakPeriod.getInstance());
 	}
 	
 	public void billCall(FakeCall call) {

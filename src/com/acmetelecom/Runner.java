@@ -1,12 +1,13 @@
 package com.acmetelecom;
 
 import com.acmetelecom.billing.BillingSystem;
+import com.acmetelecom.billing.DaytimePeakPeriod;
 
 public class Runner {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("Running...");
-		BillingSystem billingSystem = new BillingSystem();
+		BillingSystem billingSystem = new BillingSystem(DaytimePeakPeriod.getInstance());
 		billingSystem.callInitiated("447722113434", "447766511332");
 		sleepSeconds(20);
 		billingSystem.callCompleted("447722113434", "447766511332");

@@ -19,9 +19,11 @@ public class BillingSystem {
 
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
     private HashMap<String, String> billList = new HashMap<String, String>();
+    private DaytimePeakPeriod peakTimes;
     
-    public BillingSystem() {
-		//TODO: Should BillingSystem be a singleton?
+    //TODO: Should BillingSystem be a singleton?
+    public BillingSystem(DaytimePeakPeriod peakTimes) {
+		this.peakTimes = peakTimes;
 	}
 
     @Deprecated
@@ -82,7 +84,7 @@ public class BillingSystem {
 
             BigDecimal cost;
 
-            DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
+            DaytimePeakPeriod peakPeriod = DaytimePeakPeriod.getInstance();
             if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
                 cost = new BigDecimal(call.durationSeconds()).multiply(tariff.offPeakRate());
             } else {
