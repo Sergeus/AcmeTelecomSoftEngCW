@@ -15,9 +15,13 @@ public class Call {
     public String callee() {
         return start.getCallee();
     }
+    
+    public String caller() {
+        return start.getCaller();
+    }
 
     public int durationSeconds() {
-    	return TimeStamp.getDurationInSeconds(start.getTimeStamp(), end.getTimeStamp()).getSeconds();
+    	return TimeStamp.getDuration(start.getTimeStamp(), end.getTimeStamp()).getSeconds();
     }
 
     public String date() {

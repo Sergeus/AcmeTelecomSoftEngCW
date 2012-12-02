@@ -1,7 +1,10 @@
 package fit;
 
 
-import com.acmetelecom.fakes.FakeRunner;
+import com.acmetelecom.billing.BillGenerator;
+import com.acmetelecom.billing.BillingSystem;
+import com.acmetelecom.billing.DaytimePeakPeriod;
+import com.acmetelecom.fakes.FakePrinter;
 
 /*
  * Unfortunately, FIT forces you to use static (e.g. global) variables to
@@ -10,6 +13,8 @@ import com.acmetelecom.fakes.FakeRunner;
  * in static variables and defines some useful methods.
  */
 public class SystemUnderTest {
-	public static final FakeRunner billing = new FakeRunner();
+	public static final DaytimePeakPeriod peakPeriod = DaytimePeakPeriod.getInstance();
+	public static final BillingSystem billing = new BillingSystem(peakPeriod,
+																	 new BillGenerator(FakePrinter.getInstance()));
 	
 }

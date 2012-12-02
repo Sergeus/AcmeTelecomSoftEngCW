@@ -2,13 +2,12 @@ package com.acmetelecom.time;
 
 public class Time implements TimeIface {
 		
-	private final int hour, min, second, milli;
+	private final int hour, min, second;
 	
-	public Time(int hour, int min, int second, int milli) {
+	public Time(int hour, int min, int second) {
 		this.hour = hour;
 		this.min = min;
 		this.second = second;
-		this.milli = milli;
 	}
 	
 	public int getHour(){
@@ -23,13 +22,9 @@ public class Time implements TimeIface {
 		return second;
 	}
 	
-	public int getMilli(){
-		return milli;
-	}
-	
 	@Override
 	public String toString() {
-		return String.format("%d:%d:%d:%d", hour, min, second, milli);
+		return String.format("%d:%d:%d", hour, min, second);
 	}
 		
 }

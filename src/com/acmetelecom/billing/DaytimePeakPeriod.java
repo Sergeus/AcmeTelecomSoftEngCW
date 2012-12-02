@@ -13,8 +13,8 @@ public class DaytimePeakPeriod {
 	 * Peak starts at 7000 and ends at 1900.
 	 */
 	private DaytimePeakPeriod() {
-		startTime = new Time(7, 0, 0, 0);
-		endTime = new Time(19, 0, 0, 0);
+		startTime = new Time(7, 0, 0);
+		endTime = new Time(19, 0, 0);
 	}
 	
 	public static DaytimePeakPeriod getInstance(){

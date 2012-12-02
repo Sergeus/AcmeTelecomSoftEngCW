@@ -1,6 +1,8 @@
 package fit;
 
 
+import com.acmetelecom.fakes.FakePrinter;
+
 import fit.ColumnFixture;
 
 
@@ -12,7 +14,8 @@ public class TheCustomerIsBilled extends ColumnFixture {
 		Customer = null;
 	}
 	
-	public String Billed() {
-		return "Total = " + SystemUnderTest.billing.createBills(Customer);
+	public String Billed() throws Exception {
+		SystemUnderTest.billing.createBillFor(Customer);
+		return FakePrinter.getResult();
 	}
 }

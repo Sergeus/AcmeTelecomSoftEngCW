@@ -15,8 +15,8 @@ public class CallTest {
 	private String caller = "440000000000";
 	private String callee = "441000000000";
 	
-	TimeStamp time = TimeStamp.getInstance(2000, 1, 1, 0, 0, 0, 0);
-	TimeStamp timePlusTen = TimeStamp.getInstance(2000, 1, 1, 0, 0, 10, 0);
+	TimeStamp time = new TimeStamp(2000, 1, 1, 0, 0, 0);
+	TimeStamp timePlusTen = new TimeStamp(2000, 1, 1, 0, 0, 10);
 	
 	private CallStart start = new CallStart(caller, callee, time);
 	private CallEnd end = new CallEnd(caller, callee, time);

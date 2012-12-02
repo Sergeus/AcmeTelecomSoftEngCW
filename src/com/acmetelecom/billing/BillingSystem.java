@@ -1,6 +1,11 @@
 package com.acmetelecom.billing;
 
-import com.acmetelecom.MoneyFormatter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.acmetelecom.PhoneNumber;
 import com.acmetelecom.calls.Call;
 import com.acmetelecom.calls.CallEnd;
@@ -9,21 +14,23 @@ import com.acmetelecom.calls.CallStart;
 import com.acmetelecom.customer.CentralCustomerDatabase;
 import com.acmetelecom.customer.CentralTariffDatabase;
 import com.acmetelecom.customer.Customer;
+import com.acmetelecom.customer.CustomerDatabase;
 import com.acmetelecom.customer.Tariff;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.*;
+import com.acmetelecom.time.TimeStamp;
 
 public class BillingSystem {
 
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
     private HashMap<String, String> billList = new HashMap<String, String>();
-    private DaytimePeakPeriod peakTimes;
+    
+    private final DaytimePeakPeriod peakTimes;
+    private final BillGenerator billGenerator;
+    private final CustomerDatabase database = CentralCustomerDatabase.getInstance();
     
     //TODO: Should BillingSystem be a singleton?
-    public BillingSystem(DaytimePeakPeriod peakTimes) {
+    public BillingSystem(DaytimePeakPeriod peakTimes, BillGenerator billGenerator){
 		this.peakTimes = peakTimes;
+		this.billGenerator = billGenerator;
 	}
 
     @Deprecated
@@ -44,12 +51,33 @@ public class BillingSystem {
         callLog.add(new CallEnd(caller, callee));
     }
 
+    public void callInitiated(PhoneNumber caller, PhoneNumber callee, TimeStamp timeStamp) {
+        callLog.add(new CallStart(caller, callee, timeStamp));
+    }
+
+    public void callCompleted(PhoneNumber caller, PhoneNumber callee, TimeStamp timeStamp) {
+        callLog.add(new CallEnd(caller, callee, timeStamp));
+    }
+    
     public void createCustomerBills() {
-        List<Customer> customers = CentralCustomerDatabase.getInstance().getCustomers();
+        List<Customer> customers = database.getCustomers();
         for (Customer customer : customers) {
             createBillFor(customer);
         }
         //callLog.clear(); //Replaced with clearLog() function
+    }
+    
+    public void createBillFor(String customer) throws Exception{
+        List<Customer> customers = database.getCustomers();
+        
+        for (Customer c : customers) {
+			if (customer.equals(c.getPhoneNumber())) {
+				createBillFor(c);
+				return;
+			}
+		}
+        
+        throw new Exception("Customer " + customer + " does not exist in customer database");
     }
 
     private void createBillFor(Customer customer) {
@@ -100,7 +128,7 @@ public class BillingSystem {
         // ADDED OVG
         billList.put(customer.getPhoneNumber(), MoneyFormatter.penceToPounds(totalBill));
         
-        new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
+        billGenerator.send(customer, items, MoneyFormatter.penceToPounds(totalBill));
     }
     
     // ADDED OVG

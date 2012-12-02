@@ -6,7 +6,7 @@ import com.acmetelecom.time.TimeStamp;
 public class CallEnd extends CallEvent {
 	@Deprecated
     public CallEnd(String caller, String callee){
-        super(new PhoneNumber(caller), new PhoneNumber(callee), TimeStamp.now());
+        super(new PhoneNumber(caller), new PhoneNumber(callee), new TimeStamp());
     }
     
 	@Deprecated
@@ -15,7 +15,7 @@ public class CallEnd extends CallEvent {
     }
     
     public CallEnd(PhoneNumber caller, PhoneNumber callee) {
-        super(caller, callee, TimeStamp.now());
+        super(caller, callee, new TimeStamp());
     }
     
     public CallEnd(PhoneNumber caller, PhoneNumber callee, TimeStamp timeStamp) {

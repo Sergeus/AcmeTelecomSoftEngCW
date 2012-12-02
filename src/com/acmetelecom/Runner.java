@@ -1,13 +1,22 @@
 package com.acmetelecom;
 
+import com.acmetelecom.billing.BillGenerator;
 import com.acmetelecom.billing.BillingSystem;
 import com.acmetelecom.billing.DaytimePeakPeriod;
+import com.acmetelecom.billing.HtmlPrinter;
+import com.acmetelecom.customer.CentralCustomerDatabase;
+import com.acmetelecom.customer.CustomerDatabase;
 
 public class Runner {
 	
+	private static final DaytimePeakPeriod peakPeriod = DaytimePeakPeriod.getInstance();
+	private static final BillGenerator billGenerator = new BillGenerator(HtmlPrinter.getInstance());
+	private static final CustomerDatabase databse = CentralCustomerDatabase.getInstance();
+	
 	public static void main(String[] args) throws Exception {
 		System.out.println("Running...");
-		BillingSystem billingSystem = new BillingSystem(DaytimePeakPeriod.getInstance());
+		BillingSystem billingSystem = new BillingSystem(peakPeriod, billGenerator);
+		
 		billingSystem.callInitiated("447722113434", "447766511332");
 		sleepSeconds(20);
 		billingSystem.callCompleted("447722113434", "447766511332");

@@ -7,31 +7,27 @@ public class TimeStamp implements TimeStampIface{
 	
 	private final LocalDateTime dateTime;
 	
-	private TimeStamp(LocalDateTime timeStamp) {
-		dateTime = timeStamp;
-	}
-	
 	private LocalDateTime getDateTime(){
 		return dateTime;
 	}
 	
-	public Date getDate(){
+	public Time getTime(){
+		return new Time(dateTime.getHourOfDay(), dateTime.getMinuteOfHour(), dateTime.getSecondOfMinute());
+	}
+	
+	public Date getDate() {
 		return new Date(dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
 	}
 	
-	public Time getTime(){
-		return new Time(dateTime.getHourOfDay(), dateTime.getMinuteOfHour(), dateTime.getSecondOfMinute(), dateTime.getMillisOfSecond());
+	public TimeStamp(){
+		dateTime = LocalDateTime.now();
 	}
 	
-	public static TimeStamp now(){
-		return new TimeStamp(LocalDateTime.now());
+	public TimeStamp(int year, int month, int day, int hour, int minute, int second){
+		dateTime = new LocalDateTime(year, month, day, hour, minute, second);
 	}
 	
-	public static TimeStamp getInstance(int year, int month, int day, int hour, int minute, int second, int milli){
-		return new TimeStamp(new LocalDateTime(year, month, day, hour, minute, second, milli));
-	}
-	
-	public static Duration getDurationInSeconds(TimeStamp start, TimeStamp end){
+	public static Duration getDuration(TimeStamp start, TimeStamp end){
 		return new Duration(start, end);
 	}
 	
@@ -47,4 +43,5 @@ public class TimeStamp implements TimeStampIface{
 			return duration.toStandardSeconds().getSeconds();
 		}
 	}
+
 }

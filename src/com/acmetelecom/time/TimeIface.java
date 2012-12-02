@@ -6,6 +6,4 @@ public interface TimeIface {
 	public int getMin();
 	
 	public int getSecond();
-	
-	public int getMilli();
 }
