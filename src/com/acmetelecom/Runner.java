@@ -15,7 +15,7 @@ public class Runner {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("Running...");
-		BillingSystem billingSystem = new BillingSystem(peakPeriod, billGenerator);
+		BillingSystem billingSystem = new BillingSystem(billGenerator);
 		
 		billingSystem.callInitiated("447722113434", "447766511332");
 		sleepSeconds(20);

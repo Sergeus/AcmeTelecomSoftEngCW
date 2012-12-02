@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link href="files/css/fitnesse.css" rel="stylesheet" type="text/css" />
+
+    <title>Bill for customer calls (ordered)</title>
+  </head>
+
+  <body>
+   <h1>Bill for customer calls</h1>
+  	<table border="0">
+      <tr>
+        <td colspan="4">Given the following ordered calls</td>
+      </tr>
+
+      <tr>
+        <td>From</td>
+
+        <td>To</td>
+        
+        <td>EventType</td>
+                
+        <td>Time</td>
+      </tr>
+
+      <tr>
+        <td>447722113434</td20>
+
+        <td>447766511332</td>
+        
+        <td>start</td>
+                
+        <td>00:00:00</td>
+      </tr>
+      
+      <tr>
+        <td>447777765432</td>
+
+        <td>447711111111</td>
+        
+        <td>start</td>
+                
+        <td>00:00:10</td>
+      </tr>
+      
+      <tr>
+        <td>447777765432</td>
+
+        <td>447711111111</td>
+        
+        <td>end</td>
+                
+        <td>00:00:13</td>
+      </tr>
+
+      <tr>
+        <td>447722113434</td20>
+
+        <td>447766511332</td>
+        
+        <td>end</td>
+                
+        <td>00:00:29</td>
+      </tr>
+    </table>
+    
+    <table border="0">
+      <tr>
+        <td colspan="2">Given the following peak hours</td>
+      </tr>
+
+      <tr>
+        <td>From</td>
+
+        <td>To</td>
+      </tr>
+
+      <tr>
+        <td>7:00:00</td20>
+
+        <td>19:00:00</td>
+      </tr>
+
+    </table>
+    
+    <table border="0">
+      <tr>
+        <td colspan="2">The customer is billed</td>
+      </tr>
+      <tr>
+        <td>Customer</td>
+        <td>Billed()</td>
+      </tr>
+      <tr>
+        <td>447722113434</td>
+        <td>Total = 0.09</td>
+      </tr>
+
+      <tr>
+        <td>447777765432</td>
+        <td>Total = 0.01</td>
+      </tr>
+
+    </table>
+  </body>
+</html>

@@ -3,7 +3,6 @@ package com.acmetelecom.billing;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.acmetelecom.PhoneNumber;
@@ -21,15 +20,12 @@ import com.acmetelecom.time.TimeStamp;
 public class BillingSystem {
 
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
-    private HashMap<String, String> billList = new HashMap<String, String>();
     
-    private final DaytimePeakPeriod peakTimes;
     private final BillGenerator billGenerator;
     private final CustomerDatabase database = CentralCustomerDatabase.getInstance();
     
     //TODO: Should BillingSystem be a singleton?
-    public BillingSystem(DaytimePeakPeriod peakTimes, BillGenerator billGenerator){
-		this.peakTimes = peakTimes;
+    public BillingSystem(BillGenerator billGenerator){
 		this.billGenerator = billGenerator;
 	}
 
@@ -64,7 +60,8 @@ public class BillingSystem {
         for (Customer customer : customers) {
             createBillFor(customer);
         }
-        //callLog.clear(); //Replaced with clearLog() function
+        
+        callLog.clear();
     }
     
     public void createBillFor(String customer) throws Exception{
@@ -77,6 +74,7 @@ public class BillingSystem {
 			}
 		}
         
+        //TODO: Throw better exception
         throw new Exception("Customer " + customer + " does not exist in customer database");
     }
 
@@ -90,6 +88,9 @@ public class BillingSystem {
             }
         }
 
+        // Remove all calls that we have processed
+        callLog.removeAll(customerEvents);
+        
         List<Call> calls = new ArrayList<Call>();
 
         CallEvent start = null;
@@ -124,22 +125,8 @@ public class BillingSystem {
             totalBill = totalBill.add(callCost);
             items.add(new LineItem(call, callCost));
         }
-
-        // ADDED OVG
-        billList.put(customer.getPhoneNumber(), MoneyFormatter.penceToPounds(totalBill));
         
         billGenerator.send(customer, items, MoneyFormatter.penceToPounds(totalBill));
-    }
-    
-    // ADDED OVG
-    public String getBillFor(String phoneNumber) {
-    	for (String customer : billList.keySet()) {
-			if (customer.equals(phoneNumber)) {
-				return billList.get(customer);
-			}
-		}
-    	
-    	return "Customer not found!";
     }
     
     public void clearCallLog() {

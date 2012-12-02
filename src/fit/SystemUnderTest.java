@@ -3,7 +3,6 @@ package fit;
 
 import com.acmetelecom.billing.BillGenerator;
 import com.acmetelecom.billing.BillingSystem;
-import com.acmetelecom.billing.DaytimePeakPeriod;
 import com.acmetelecom.fakes.FakePrinter;
 
 /*
@@ -13,8 +12,6 @@ import com.acmetelecom.fakes.FakePrinter;
  * in static variables and defines some useful methods.
  */
 public class SystemUnderTest {
-	public static final DaytimePeakPeriod peakPeriod = DaytimePeakPeriod.getInstance();
-	public static final BillingSystem billing = new BillingSystem(peakPeriod,
-																	 new BillGenerator(FakePrinter.getInstance()));
+	public static final BillingSystem billing = new BillingSystem(new BillGenerator(FakePrinter.getInstance()));
 	
 }
