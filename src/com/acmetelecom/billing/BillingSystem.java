@@ -18,11 +18,11 @@ import com.acmetelecom.customer.CentralTariffDatabase;
 import com.acmetelecom.customer.Customer;
 import com.acmetelecom.customer.CustomerDatabase;
 import com.acmetelecom.customer.Tariff;
+import com.acmetelecom.exceptions.CustomerNotFoundException;
 import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
 import com.acmetelecom.time.TimeStamp;
 
-import exceptions.CustomerNotFoundException;
 
 public class BillingSystem {
 
