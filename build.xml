@@ -52,8 +52,6 @@
     		
     <macrodef name="compile-classes">
     	<sequential>
-    		<mkdir dir="classes" />
-    	
     		<javac srcdir="src/" destdir="classes/" debug="${debug}" classpathref="lib.path" />
 		</sequential>
     </macrodef>
