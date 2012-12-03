@@ -1,13 +1,13 @@
 package com.acmetelecom;
-import com.acmetelecom.time.Time;
+import com.acmetelecom.time.TimeStamp;
 
 
 public class lolClass implements Comparable<lolClass>{
 		
 		private final String type;
-		private final Time time;
+		private final TimeStamp time;
 		
-		public lolClass(String type, Time time) {
+		public lolClass(String type, TimeStamp time) {
 			this.time = time;
 			this.type = type;
 		}
@@ -16,7 +16,7 @@ public class lolClass implements Comparable<lolClass>{
 			return type;
 		}
 		
-		public Time getTime(){
+		public TimeStamp getTime(){
 			return time;
 		}
 
