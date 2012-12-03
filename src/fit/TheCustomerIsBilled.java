@@ -1,6 +1,7 @@
 package fit;
 
 
+import com.acmetelecom.exceptions.CustomerNotFoundException;
 import com.acmetelecom.fakes.FakePrinter;
 
 import fit.ColumnFixture;
@@ -14,7 +15,7 @@ public class TheCustomerIsBilled extends ColumnFixture {
 		Customer = null;
 	}
 	
-	public String Billed() throws Exception {
+	public String Billed() throws CustomerNotFoundException {
 		SystemUnderTest.billing.createBillFor(Customer);
 		return FakePrinter.getResult();
 	}
