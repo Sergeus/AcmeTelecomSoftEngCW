@@ -17,10 +17,12 @@ public class CallTest {
 	
 	TimeStamp time = new TimeStamp(2000, 1, 1, 0, 0, 0);
 	TimeStamp timePlusTen = new TimeStamp(2000, 1, 1, 0, 0, 10);
+	TimeStamp timeOverlappingDay = new TimeStamp(2000, 1, 2, 0, 0, 0);
 	
 	private CallStart start = new CallStart(caller, callee, time);
 	private CallEnd end = new CallEnd(caller, callee, time);
 	private CallEnd endPlusTen = new CallEnd(caller, callee, timePlusTen);
+	private CallEnd endOverlappingDay = new CallEnd(caller, callee, timeOverlappingDay);
 
 	@Test
 	public void testCallee() {
@@ -35,6 +37,9 @@ public class CallTest {
 		
 		call = new Call(start, endPlusTen);
 		Assert.assertEquals(call.durationSeconds(), 10);
+		
+		call = new Call(start, endOverlappingDay);
+		Assert.assertEquals(call.durationSeconds(), 86400);
 	}
 
 	@Test
