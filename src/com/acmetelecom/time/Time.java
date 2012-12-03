@@ -4,7 +4,7 @@ package com.acmetelecom.time;
  * Represents the time of day (ie. 13:43:16)
  *
  */
-public class Time implements Comparable<Time>{
+public class Time implements Comparable<Time> {
 		
 	private final int hour, min, second;
 	
@@ -46,11 +46,16 @@ public class Time implements Comparable<Time>{
 	}
 	
 	public boolean isAfter(Time time){
-		return (this.getSeconds() >= time.getSeconds());
+		return (this.getSeconds() > time.getSeconds());
+	}
+	
+	public boolean isEqual(Time time){
+		return (this.getSeconds() == time.getSeconds());
 	}
 	
 	public boolean isBetween(Time start, Time end){
-		return ((this.isAfter(start))&&(this.isBefore(end))); 
+		return ( (this.isAfter(start) && this.isBefore(end)) ||
+					(this.isEqual(start) || this.isEqual(end)) ); 
 	}
 	
 	/**
