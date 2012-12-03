@@ -2,7 +2,7 @@ package com.acmetelecom.time;
 
 import org.joda.time.LocalDateTime;
 
-public class TimeStamp{
+public class TimeStamp implements Comparable<TimeStamp>{
 	
 	private final LocalDateTime dateTime;
 	
@@ -24,6 +24,12 @@ public class TimeStamp{
 	
 	public TimeStamp(int year, int month, int day, int hour, int minute, int second){
 		dateTime = new LocalDateTime(year, month, day, hour, minute, second);
+	}
+
+	@Override
+	//TODO test this
+	public int compareTo(TimeStamp o) {
+		return dateTime.compareTo(o.dateTime);
 	}
 
 }

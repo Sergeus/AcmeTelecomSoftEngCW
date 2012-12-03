@@ -1,11 +1,9 @@
-import java.util.List;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
-import org.joda.time.Period;
-
-import com.acmetelecom.customer.CentralCustomerDatabase;
-import com.acmetelecom.customer.CentralTariffDatabase;
-import com.acmetelecom.customer.Customer;
-import com.acmetelecom.customer.TariffLibrary;
 import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
 import com.acmetelecom.time.TimeStamp;
@@ -33,53 +31,156 @@ public class Scratch {
 		
 		
 		
-		List<Customer> c = CentralCustomerDatabase.getInstance().getCustomers();
-		TariffLibrary t = CentralTariffDatabase.getInstance();
-		
-		for (Customer customer : c) {
-			System.out.println(customer.getFullName() + " " + customer.getPhoneNumber() + " " + customer.getPricePlan());
-			System.out.println(t.tarriffFor(customer).offPeakRate() + " " + t.tarriffFor(customer).peakRate());
-		}
+//		List<Customer> c = CentralCustomerDatabase.getInstance().getCustomers();
+//		TariffLibrary t = CentralTariffDatabase.getInstance();
+//		
+//		for (Customer customer : c) {
+//			System.out.println(customer.getFullName() + " " + customer.getPhoneNumber() + " " + customer.getPricePlan());
+//			System.out.println(t.tarriffFor(customer).offPeakRate() + " " + t.tarriffFor(customer).peakRate());
+//		}
 
 		
 		
 		
 		
-//		Time peakStart = new Time(7, 0, 0);
-//		Time peakEnd = new Time(8, 0, 0);
-//		
-//		Time startTime = new TimeStamp(1970, 1, 1, 6, 45, 0).getTime();
-//		Time endTime = new TimeStamp(1970, 1, 1, 7, 15, 0).getTime();
-//		
-//		long peakSeconds = 0;
-//		long offpeakSeconds = 0;
-//		
-//		if (startTime.isBetween(peakStart, peakEnd)){
-//			System.out.println("Start in peak");
+		Time peakStart = new Time(7, 00, 00);
+		Time peakEnd = new Time(19, 00, 00);
+		
+		Time startTime = new TimeStamp(2000, 1, 1, 18, 30, 00).getTime();
+		Time endTime = new TimeStamp(2000, 1, 2, 01, 00, 00).getTime();
+		
+		long peakSeconds = 0;
+		long offpeakSeconds = 0;
+		
+		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
+			System.out.println("Extending peakEnd");
+			peakEnd = new Time(peakEnd.getHour()+24, peakEnd.getMin(), peakEnd.getSecond());
+		}
+		
+		if (peakStart.isBefore(startTime)) {
+			System.out.println("Extending peakStart");
+			peakStart = new Time(peakStart.getHour()+24, peakStart.getMin(), peakStart.getSecond());
+		}
+		
+		if (endTime.isBefore(startTime)) {
+			System.out.println("Extending endTime");
+			endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
+		}		
+		
+	
+		SortedSet<lolClass> t = new TreeSet<Scratch.lolClass>();
+		t.add(new lolClass("start", peakStart));
+		t.add(new lolClass("end", peakEnd));
+		t.add(new lolClass("final", endTime));
+		
+		int i = 0;
+		for (lolClass e : t) {
+			System.out.println(i++ + " " + e.getType() + " " + e.getTime());
+		}
+		
+		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
+		
+		Time startOfPeriod = startTime;
+		for (lolClass e : t) {
+			if (e.getType() == "final") {
+				
+				if (e.getTime().isBetween(peakStart, peakEnd)) {
+					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+				} else{
+					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+				}
+
+				break;
+			}
+			
+			if (e.getType() == "start") {
+				offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+			} else {
+				peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+			}
+			
+			startOfPeriod = e.getTime();
+		}
+		
+//		if (endTime.isBefore(t.first().getTime())) {
 //			
-//			if (endTime.isBefore(peakEnd)) {
-//				peakSeconds += Duration.inSeconds(startTime, endTime);
+//			System.out.println("A");
+//			
+//			if (t.first().getType() == "start") {
+//				offpeakSeconds += Duration.inSeconds(startTime, endTime);
 //			} else {
-//				peakSeconds += Duration.inSeconds(startTime, peakEnd);
-//				offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
+//				peakSeconds += Duration.inSeconds(startTime, endTime);
 //			}
 //			
 //		} else {
-//			System.out.println("Start in offpeak");
 //			
-//			if (endTime.isBefore(peakStart)) {
-//				offpeakSeconds += Duration.inSeconds(startTime, endTime);
-//			} else {
-//				offpeakSeconds += Duration.inSeconds(startTime, peakStart);
-//				peakSeconds += Duration.inSeconds(peakStart, endTime);
+//			Time startOfPeriod = startTime;
+//			Time endOfPeriod;
+//			
+//			//TODO Is this correct?
+//			String lastType = t.first().getType();
+//			
+//			for (lolClass e : t) {
+//				endOfPeriod = e.getTime();
+//				
+//				if (endTime.isBefore(endOfPeriod) || endTime.isEqual(endOfPeriod)) {
+//					
+//					System.out.println("B");
+//					
+//					if (e.getType() == "start" || (e.getType() == "final" && lastType == "end")) {
+//						offpeakSeconds += Duration.inSeconds(startOfPeriod, endTime);
+//					} else if (e.getType() == "end"  || (e.getType() == "final" && lastType == "start")) {
+//						peakSeconds += Duration.inSeconds(startOfPeriod, endTime);
+//					}
+//					
+//					break;
+//					
+//				} else {
+//					
+//					System.out.println("C");
+//					
+//					if (e.getType() == "start") {
+//						offpeakSeconds += Duration.inSeconds(startOfPeriod, endOfPeriod);
+//					} else {
+//						peakSeconds += Duration.inSeconds(startOfPeriod, endOfPeriod);
+//					}
+//					
+//				}
+//				
+//				startOfPeriod = endOfPeriod;
+//				lastType = e.getType();
 //			}
+//			
 //		}
-//		
-//		System.out.println(offpeakSeconds + " seconds off peak, " + peakSeconds + " seconds in peak");	
-				
+		
+		System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
 		
 	}
 	
-	
+	public static class lolClass implements Comparable<lolClass>{
+		
+		private final String type;
+		private final Time time;
+		
+		public lolClass(String type, Time time) {
+			this.time = time;
+			this.type = type;
+		}
+		
+		public String getType(){
+			return type;
+		}
+		
+		public Time getTime(){
+			return time;
+		}
+
+		@Override
+		public int compareTo(lolClass o) {
+			return time.compareTo(o.time);
+		}
+		
+		
+	}
 	
 }
