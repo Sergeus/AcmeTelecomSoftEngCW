@@ -3,3 +3,9 @@
 # Package Files #
 *.war
 *.ear
+
+[Bb]in/
+[Bb]uild/
+*.DS_Store
+[Rr]eports/
+.settings/
