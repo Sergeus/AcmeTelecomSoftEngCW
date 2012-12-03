@@ -122,7 +122,7 @@ public class BillingSystem {
             Time peakStart = DaytimePeakPeriod.getPeakStart();
             Time peakEnd = DaytimePeakPeriod.getPeakEnd();
             TimeStamp startTimeStamp = call.startTimeStamp();
-            TimeStamp endTimeStamp = call.startTimeStamp();
+            TimeStamp endTimeStamp = call.endTimeStamp();
             
             Time startTime = startTimeStamp.getTime();
     		Time endTime = endTimeStamp.getTime();
@@ -146,9 +146,15 @@ public class BillingSystem {
     		t.add(new lolClass("final", endTimeStamp));
     		
     		int i = 0;
+    		StringBuilder sb = new StringBuilder();
     		for (lolClass e : t) {
+    			sb.append(i++ + " " + e.getType() + " " + e.getTime().getTime() + "\n");
     			System.out.println(i++ + " " + e.getType() + " " + e.getTime().getTime());
     		}
+    		
+//    		if (true) {
+//				throw new RuntimeException(sb.toString());
+//			}
     		
     		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
     		
@@ -160,9 +166,11 @@ public class BillingSystem {
     					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)) {
     						System.out.println("A");
     						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//    						throw new RuntimeException("A - peak: " + peakSeconds + ". off-peak: " + offpeakSeconds);
     					} else{
     						System.out.println("B");
     						offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//    						throw new RuntimeException("B - peak: " + peakSeconds + ". off-peak: " + offpeakSeconds);
     					}
     					
     					break;
@@ -171,9 +179,11 @@ public class BillingSystem {
     				if (e.getType() == "start") {
     					System.out.println("C");
     					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//    					throw new RuntimeException("C - peak: " + peakSeconds + ". off-peak: " + offpeakSeconds);
     				} else {
     					System.out.println("D");
     					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//    					throw new RuntimeException("D - peak: " + peakSeconds + ". off-peak: " + offpeakSeconds);
     				}
     				
     				startOfPeriod = e.getTime();
@@ -181,6 +191,8 @@ public class BillingSystem {
     				
     			}
     		}
+    		
+//    		throw new RuntimeException("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
             
             cost = new BigDecimal(peakSeconds).multiply(tariff.peakRate()).add(new BigDecimal(offpeakSeconds).multiply(tariff.offPeakRate()));
             
