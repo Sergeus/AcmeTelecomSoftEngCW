@@ -17,7 +17,7 @@
 		<delete dir="reports" />
 	</target>	
 	
-	<target name="unit-test" depends="classes">
+	<target name="unit-test">
 		<junit printsummary="yes">
 			<classpath>
 				<path refid="lib.path" />
@@ -40,21 +40,11 @@
 			<arg value="reports" />
 		</java>
 	</target>
-		
-	<target name="classes">
-		<compile-classes />
-	</target>
 
     <target name="jars">
         <compile-module name="com" />
     	<compile-module name="fit" />
     </target>
-    		
-    <macrodef name="compile-classes">
-    	<sequential>
-    		<javac srcdir="src/" destdir="classes/" debug="${debug}" classpathref="lib.path" />
-		</sequential>
-    </macrodef>
 	
 	<macrodef name="compile-module">
 		<attribute name="name" />
