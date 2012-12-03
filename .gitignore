@@ -5,5 +5,8 @@
 *.ear
 
 [Bb]in/
+<<<<<<< HEAD
 [Bb]uild/
 *.DS_Store
+=======
+>>>>>>> parent of 61edd91... Changed timing functionality to use TimeStamp.java
