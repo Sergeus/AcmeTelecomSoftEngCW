@@ -1,11 +1,8 @@
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-import org.joda.time.Period;
-
-import com.acmetelecom.customer.CentralCustomerDatabase;
-import com.acmetelecom.customer.CentralTariffDatabase;
-import com.acmetelecom.customer.Customer;
-import com.acmetelecom.customer.TariffLibrary;
+import com.acmetelecom.lolClass;
+import com.acmetelecom.time.Date;
 import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
 import com.acmetelecom.time.TimeStamp;
@@ -33,53 +30,141 @@ public class Scratch {
 		
 		
 		
-		List<Customer> c = CentralCustomerDatabase.getInstance().getCustomers();
-		TariffLibrary t = CentralTariffDatabase.getInstance();
-		
-		for (Customer customer : c) {
-			System.out.println(customer.getFullName() + " " + customer.getPhoneNumber() + " " + customer.getPricePlan());
-			System.out.println(t.tarriffFor(customer).offPeakRate() + " " + t.tarriffFor(customer).peakRate());
-		}
+//		List<Customer> c = CentralCustomerDatabase.getInstance().getCustomers();
+//		TariffLibrary t = CentralTariffDatabase.getInstance();
+//		
+//		for (Customer customer : c) {
+//			System.out.println(customer.getFullName() + " " + customer.getPhoneNumber() + " " + customer.getPricePlan());
+//			System.out.println(t.tarriffFor(customer).offPeakRate() + " " + t.tarriffFor(customer).peakRate());
+//		}
 
 		
 		
 		
 		
-//		Time peakStart = new Time(7, 0, 0);
-//		Time peakEnd = new Time(8, 0, 0);
-//		
-//		Time startTime = new TimeStamp(1970, 1, 1, 6, 45, 0).getTime();
-//		Time endTime = new TimeStamp(1970, 1, 1, 7, 15, 0).getTime();
-//		
-//		long peakSeconds = 0;
-//		long offpeakSeconds = 0;
-//		
-//		if (startTime.isBetween(peakStart, peakEnd)){
-//			System.out.println("Start in peak");
+		Time peakStart = new Time(22, 00, 00);
+		Time peakEnd = new Time(2, 00, 00);
+		
+		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 1, 00, 00);
+		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 1, 3, 00, 00);
+		
+		Time startTime = startTimeStamp.getTime();
+		Time endTime = endTimeStamp.getTime();
+		
+		Date startDate = startTimeStamp.getDate();
+		
+		long peakSeconds = 0;
+		long offpeakSeconds = 0;
+		
+		SortedSet<lolClass> t = new TreeSet<lolClass>();
+		
+		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
+		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
+		
+		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
+			System.out.println("Added day to peakEndTimeStamp");
+			peakEndTimeStamp = peakEndTimeStamp.addDay();
+		}
+		
+		if (peakStart.isBefore(startTime)){
+			System.out.println("Added say to PeakStartTimeStamp");
+			peakStartTimeStamp = peakStartTimeStamp.addDay();
+		}
+		
+		t.add(new lolClass("start", peakStartTimeStamp));
+		t.add(new lolClass("end", peakEndTimeStamp));		
+		t.add(new lolClass("final", endTimeStamp));
+		
+		int i = 0;
+		for (lolClass e : t) {
+			System.out.println(i++ + " " + e.getType() + " " + e.getTime().getTime());
+		}
+		
+		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
+		
+		TimeStamp startOfPeriod = startTimeStamp;
+		for (lolClass e : t) {
+			if (!e.getTime().isBefore(startTimeStamp)) {
+				if (e.getType() == "final") {
+					
+					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)) {
+						System.out.println("A");
+						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+					} else{
+						System.out.println("B");
+						offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+					}
+					
+					break;
+				}
+				
+				if (e.getType() == "start") {
+					System.out.println("C");
+					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+				} else {
+					System.out.println("D");
+					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+				}
+				
+				startOfPeriod = e.getTime();
+				System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
+				
+			}
+		}
+		
+//		if (endTime.isBefore(t.first().getTime())) {
 //			
-//			if (endTime.isBefore(peakEnd)) {
-//				peakSeconds += Duration.inSeconds(startTime, endTime);
+//			System.out.println("A");
+//			
+//			if (t.first().getType() == "start") {
+//				offpeakSeconds += Duration.inSeconds(startTime, endTime);
 //			} else {
-//				peakSeconds += Duration.inSeconds(startTime, peakEnd);
-//				offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
+//				peakSeconds += Duration.inSeconds(startTime, endTime);
 //			}
 //			
 //		} else {
-//			System.out.println("Start in offpeak");
 //			
-//			if (endTime.isBefore(peakStart)) {
-//				offpeakSeconds += Duration.inSeconds(startTime, endTime);
-//			} else {
-//				offpeakSeconds += Duration.inSeconds(startTime, peakStart);
-//				peakSeconds += Duration.inSeconds(peakStart, endTime);
+//			Time startOfPeriod = startTime;
+//			Time endOfPeriod;
+//			
+//			//TODO Is this correct?
+//			String lastType = t.first().getType();
+//			
+//			for (lolClass e : t) {
+//				endOfPeriod = e.getTime();
+//				
+//				if (endTime.isBefore(endOfPeriod) || endTime.isEqual(endOfPeriod)) {
+//					
+//					System.out.println("B");
+//					
+//					if (e.getType() == "start" || (e.getType() == "final" && lastType == "end")) {
+//						offpeakSeconds += Duration.inSeconds(startOfPeriod, endTime);
+//					} else if (e.getType() == "end"  || (e.getType() == "final" && lastType == "start")) {
+//						peakSeconds += Duration.inSeconds(startOfPeriod, endTime);
+//					}
+//					
+//					break;
+//					
+//				} else {
+//					
+//					System.out.println("C");
+//					
+//					if (e.getType() == "start") {
+//						offpeakSeconds += Duration.inSeconds(startOfPeriod, endOfPeriod);
+//					} else {
+//						peakSeconds += Duration.inSeconds(startOfPeriod, endOfPeriod);
+//					}
+//					
+//				}
+//				
+//				startOfPeriod = endOfPeriod;
+//				lastType = e.getType();
 //			}
+//			
 //		}
-//		
-//		System.out.println(offpeakSeconds + " seconds off peak, " + peakSeconds + " seconds in peak");	
-				
+		
+		System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
 		
 	}
-	
-	
 	
 }

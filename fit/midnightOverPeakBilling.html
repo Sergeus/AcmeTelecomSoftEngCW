@@ -5,11 +5,13 @@
   <head>
     <link href="files/css/fitnesse.css" rel="stylesheet" type="text/css" />
 
-    <title>Bill for customer calls</title>
+    <title>Bill for customer calls (ordered)</title>
   </head>
 
-  <body>
-   <h1>Bill for customer calls</h1>
+  <body>	<link rel="stylesheet" type="text/css" href="files/css/fitnesse.css" media="screen"/>
+	<link rel="stylesheet" type="text/css" href="files/css/fitnesse.css" media="print"/>
+
+   <h1>Midnight Billing</h1>
   	<table border="0">
       <tr>
         <td colspan="4">Given the following calls</td>
@@ -26,23 +28,13 @@
       </tr>
 
       <tr>
-        <td>447722113434</td20>
+        <td>447722113434</td>
 
         <td>447766511332</td>
         
-        <td>00:00:00</td>
+        <td>23:00:00</td>
                 
-        <td>00:00:19</td>
-      </tr>
-
-      <tr>
-        <td>447722113434</td>
-
-        <td>447711111111</td>
-        
-        <td>1:00:00</td>
-                
-        <td>1:00:29</td>
+        <td>01:00:00</td>
       </tr>
 
       <tr>
@@ -50,21 +42,40 @@
 
         <td>447711111111</td>
         
-        <td>2:00:00</td>
+        <td>21:00:00</td>
                 
-        <td>2:00:59</td>
+        <td>01:00:00</td>
       </tr>
-        
+
       <tr>
-        <td>447711232343</td>
+        <td>447795195195</td>
 
         <td>447711111111</td>
         
-        <td>6:00:00</td>
+        <td>21:00:00</td>
                 
-        <td>20:00:00</td>
+        <td>03:00:00</td>
       </tr>
-      
+
+      <tr>
+        <td>447223432532</td>
+
+        <td>447711111111</td>
+        
+        <td>23:00:00</td>
+                
+        <td>03:00:00</td>
+      </tr>
+
+      <tr>
+        <td>447721232123</td>
+
+        <td>447711111111</td>
+        
+        <td>01:00:00</td>
+                
+        <td>03:00:00</td>
+      </tr>
     </table>
     
     <table border="0">
@@ -79,9 +90,9 @@
       </tr>
 
       <tr>
-        <td>7:00:00</td20>
+        <td>22:00:00</td>
 
-        <td>19:00:00</td>
+        <td>02:00:00</td>
       </tr>
 
     </table>
@@ -96,19 +107,28 @@
       </tr>
       <tr>
         <td>447722113434</td>
-        <td>Total = 0.15</td>
+        <td>Total = 21.60</td>
       </tr>
 
       <tr>
         <td>447777765432</td>
-        <td>Total = 0.12</td>
-      </tr>
-
-      <tr>
-        <td>447711232343</td>
-        <td>Total = 230.40</td>
+        <td>Total = 61.20</td>
       </tr>
       
+      <tr>
+        <td>447795195195</td>
+        <td>Total = 122.40</td>
+      </tr>
+      
+      <tr>
+        <td>447223432532</td>
+        <td>Total = 61.20</td>
+      </tr>
+       
+      <tr>
+        <td>447721232123</td>
+        <td>Total = 25.20</td>
+      </tr>     
     </table>
   </body>
 </html>

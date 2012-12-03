@@ -4,8 +4,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.acmetelecom.PhoneNumber;
+import com.acmetelecom.lolClass;
 import com.acmetelecom.calls.Call;
 import com.acmetelecom.calls.CallEnd;
 import com.acmetelecom.calls.CallEvent;
@@ -15,6 +18,7 @@ import com.acmetelecom.customer.CentralTariffDatabase;
 import com.acmetelecom.customer.Customer;
 import com.acmetelecom.customer.CustomerDatabase;
 import com.acmetelecom.customer.Tariff;
+import com.acmetelecom.time.Date;
 import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
 import com.acmetelecom.time.TimeStamp;
@@ -117,49 +121,74 @@ public class BillingSystem {
 
             Time peakStart = DaytimePeakPeriod.getPeakStart();
             Time peakEnd = DaytimePeakPeriod.getPeakEnd();
-            Time startTime = call.startTime();
-            Time endTime = call.endTime();
+            TimeStamp startTimeStamp = call.startTimeStamp();
+            TimeStamp endTimeStamp = call.endTimeStamp();
             
-//            //This is bad code
-//            if (endTime.isBefore(startTime)){
-//            	endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
-//            	//throw new RuntimeException("Extended endTime: " + endTime);
-//            }
-//            
-//            //This is bad code
-//            if (peakEnd.isBefore(peakStart)) {
-//				peakEnd = new Time(peakEnd.getHour()+24, peakEnd.getMin(), peakEnd.getSecond());
-//				//throw new RuntimeException("Extended peakEnd: " + peakEnd);
-//			}
-            
+            Time startTime = startTimeStamp.getTime();
+    		Time endTime = endTimeStamp.getTime();
+    		
+    		Date startDate = startTimeStamp.getDate();
+    		
     		long peakSeconds = 0;
     		long offpeakSeconds = 0;
     		
-    		if (startTime.isBetween(peakStart, peakEnd)){
-    			if (endTime.isBefore(peakEnd)) {
-    				peakSeconds += Duration.inSeconds(startTime, endTime);
-    			} else {
-    				//TODO: Not sure if this is correct. Please check
-    				peakSeconds += Duration.inSeconds(startTime, peakEnd);
-    				offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
-    			}
-    			
-    		} else {
-    			if (endTime.isBefore(peakStart)) {
-    				offpeakSeconds += Duration.inSeconds(startTime, endTime);
-    			} else {
-    				offpeakSeconds += Duration.inSeconds(startTime, peakStart);
+    		SortedSet<lolClass> t = new TreeSet<lolClass>();
+    		
+    		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
+    		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
+    		
+    		if (/*peakEnd.isBefore(peakStart) ||*/ peakEnd.isBefore(startTime)) {
+    			peakEndTimeStamp = peakEndTimeStamp.addDay();
+    		}
+    		
+    		if (peakStart.isBefore(startTime)){
+    			peakStartTimeStamp = peakStartTimeStamp.addDay();
+    		}
+    		
+    		t.add(new lolClass("start", peakStartTimeStamp));
+    		t.add(new lolClass("end", peakEndTimeStamp));		
+    		t.add(new lolClass("final", endTimeStamp));
+    		
+    		int i = 0;
+    		for (lolClass e : t) {
+    			System.out.println(i++ + " " + e.getType() + " " + e.getTime().getTime());
+    		}
+    		
+    		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
+    		
+    		TimeStamp startOfPeriod = startTimeStamp;
+    		for (lolClass e : t) {
+    			if (!e.getTime().isBefore(startTimeStamp)) {
+    				if (e.getType() == "final") {
+    					
+    					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)) {
+    						System.out.println("A");
+    						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//    						throw new RuntimeException("A - startOfPeriod: " + startOfPeriod.getDate() + startOfPeriod.getTime() + ". e.getTime(): " + e.getTime().getDate() +  e.getTime().getTime());
+    					} else{
+    						System.out.println("B");
+    						offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//    						throw new RuntimeException("B - startOfPeriod: " + startOfPeriod.getDate() + startOfPeriod.getTime() + ". e.getTime(): " + e.getTime().getDate() +  e.getTime().getTime());
+    					}
+    					
+    					break;
+    				}
     				
-    				if (endTime.isAfter(peakEnd)) {
-						peakSeconds += Duration.inSeconds(peakStart, peakEnd);
-						offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
-					} else {
-						peakSeconds += Duration.inSeconds(peakStart, endTime);
-					}
+    				if (e.getType() == "start") {
+    					System.out.println("C");
+    					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+    				} else {
+    					System.out.println("D");
+    					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+    				}
+    				
+    				startOfPeriod = e.getTime();
+    				System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
+    				
     			}
     		}
     		
-//    		throw new RuntimeException("peak: " + peakSeconds + ". offpeak: " + offpeakSeconds);
+//    		throw new RuntimeException("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
             
             cost = new BigDecimal(peakSeconds).multiply(tariff.peakRate()).add(new BigDecimal(offpeakSeconds).multiply(tariff.offPeakRate()));
             
@@ -186,7 +215,7 @@ public class BillingSystem {
         }
 
         public String date() {
-            return call.date();
+            return call.date().toString();
         }
 
         public String callee() {
