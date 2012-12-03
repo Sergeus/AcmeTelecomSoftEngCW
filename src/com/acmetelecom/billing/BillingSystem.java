@@ -4,8 +4,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.acmetelecom.PhoneNumber;
+import com.acmetelecom.lolClass;
 import com.acmetelecom.calls.Call;
 import com.acmetelecom.calls.CallEnd;
 import com.acmetelecom.calls.CallEvent;
@@ -120,46 +123,51 @@ public class BillingSystem {
             Time startTime = call.startTime();
             Time endTime = call.endTime();
             
-//            //This is bad code
-//            if (endTime.isBefore(startTime)){
-//            	endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
-//            	//throw new RuntimeException("Extended endTime: " + endTime);
-//            }
-//            
-//            //This is bad code
-//            if (peakEnd.isBefore(peakStart)) {
-//				peakEnd = new Time(peakEnd.getHour()+24, peakEnd.getMin(), peakEnd.getSecond());
-//				//throw new RuntimeException("Extended peakEnd: " + peakEnd);
-//			}
-            
     		long peakSeconds = 0;
     		long offpeakSeconds = 0;
     		
-    		if (startTime.isBetween(peakStart, peakEnd)){
-    			if (endTime.isBefore(peakEnd)) {
-    				peakSeconds += Duration.inSeconds(startTime, endTime);
-    			} else {
-    				//TODO: Not sure if this is correct. Please check
-    				peakSeconds += Duration.inSeconds(startTime, peakEnd);
-    				offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
-    			}
-    			
-    		} else {
-    			if (endTime.isBefore(peakStart)) {
-    				offpeakSeconds += Duration.inSeconds(startTime, endTime);
-    			} else {
-    				offpeakSeconds += Duration.inSeconds(startTime, peakStart);
-    				
-    				if (endTime.isAfter(peakEnd)) {
-						peakSeconds += Duration.inSeconds(peakStart, peakEnd);
-						offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
-					} else {
-						peakSeconds += Duration.inSeconds(peakStart, endTime);
-					}
-    			}
+    		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
+    			System.out.println("Extending peakEnd");
+    			peakEnd = new Time(peakEnd.getHour()+24, peakEnd.getMin(), peakEnd.getSecond());
     		}
     		
-//    		throw new RuntimeException("peak: " + peakSeconds + ". offpeak: " + offpeakSeconds);
+    		if (peakStart.isBefore(startTime)) {
+    			System.out.println("Extending peakStart");
+    			peakStart = new Time(peakStart.getHour()+24, peakStart.getMin(), peakStart.getSecond());
+    		}
+    		
+    		if (endTime.isBefore(startTime)) {
+    			System.out.println("Extending endTime");
+    			endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
+    		}		
+    		
+    	
+    		SortedSet<lolClass> t = new TreeSet<lolClass>();
+    		t.add(new lolClass("start", peakStart));
+    		t.add(new lolClass("end", peakEnd));
+    		t.add(new lolClass("final", endTime));
+    		
+    		Time startOfPeriod = startTime;
+    		for (lolClass e : t) {
+    			if (e.getType() == "final") {
+    				
+    				if (e.getTime().isBetween(peakStart, peakEnd)) {
+    					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+    				} else{
+    					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+    				}
+
+    				break;
+    			}
+    			
+    			if (e.getType() == "start") {
+    				offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+    			} else {
+    				peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+    			}
+    			
+    			startOfPeriod = e.getTime();
+    		}
             
             cost = new BigDecimal(peakSeconds).multiply(tariff.peakRate()).add(new BigDecimal(offpeakSeconds).multiply(tariff.offPeakRate()));
             
