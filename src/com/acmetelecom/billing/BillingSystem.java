@@ -137,8 +137,12 @@ public class BillingSystem {
     		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
     		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
     		
-    		if (peakEnd.isBefore(peakStart)) {
+    		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
     			peakEndTimeStamp = peakEndTimeStamp.addDay();
+    		}
+    		
+    		if (peakStart.isBefore(startTime)){
+    			peakStartTimeStamp = peakStartTimeStamp.addDay();
     		}
     		
     		t.add(new lolClass("start", peakStartTimeStamp));

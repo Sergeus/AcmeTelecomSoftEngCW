@@ -45,8 +45,8 @@ public class Scratch {
 		Time peakStart = new Time(7, 00, 00);
 		Time peakEnd = new Time(19, 00, 00);
 		
-		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 23, 59, 55);
-		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 2, 00, 00, 05);
+		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 23, 59, 00);
+		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 2, 8, 00, 00);
 		
 		Time startTime = startTimeStamp.getTime();
 		Time endTime = endTimeStamp.getTime();
@@ -61,8 +61,12 @@ public class Scratch {
 		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
 		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
 		
-		if (peakEnd.isBefore(peakStart)) {
+		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
 			peakEndTimeStamp = peakEndTimeStamp.addDay();
+		}
+		
+		if (peakStart.isBefore(startTime)){
+			peakStartTimeStamp = peakStartTimeStamp.addDay();
 		}
 		
 		t.add(new lolClass("start", peakStartTimeStamp));
