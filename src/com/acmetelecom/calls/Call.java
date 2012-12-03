@@ -1,7 +1,9 @@
 package com.acmetelecom.calls;
 
+import com.acmetelecom.time.Date;
 import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
+import com.acmetelecom.time.TimeStamp;
 
 public class Call {
     private CallEvent start;
@@ -24,8 +26,8 @@ public class Call {
     	return Duration.inSeconds(start.getTimeStamp(), end.getTimeStamp());
     }
 
-    public String date() {
-        return start.getTimeStamp().getDate().toString();
+    public Date date() {
+        return start.getTimeStamp().getDate();
     }
 
     public Time startTime() {
@@ -34,5 +36,13 @@ public class Call {
 
     public Time endTime() {
         return end.getTimeStamp().getTime();
+    }
+    
+    public TimeStamp startTimeStamp() {
+        return start.getTimeStamp();
+    }
+
+    public TimeStamp endTimeStamp() {
+        return end.getTimeStamp();
     }
 }

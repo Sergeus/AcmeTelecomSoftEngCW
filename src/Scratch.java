@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -43,40 +42,21 @@ public class Scratch {
 		
 		
 		
-		Time peakStart = new Time(22, 00, 00);
-		Time peakEnd = new Time(2, 00, 00);
+		Time peakStart = new Time(7, 00, 00);
+		Time peakEnd = new Time(19, 00, 00);
 		
-		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 23, 00, 00);
-		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 2, 01, 00, 00);
+		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 23, 59, 55);
+		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 2, 00, 00, 05);
 		
 		Time startTime = startTimeStamp.getTime();
 		Time endTime = endTimeStamp.getTime();
 		
 		Date startDate = startTimeStamp.getDate();
-		Date endDate = endTimeStamp.getDate();
 		
 		long peakSeconds = 0;
 		long offpeakSeconds = 0;
 		
-//		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
-//			System.out.println("Extending peakEnd");
-//			peakEnd = new Time(peakEnd.getHour()+24, peakEnd.getMin(), peakEnd.getSecond());
-//		}
-//		
-//		if (peakStart.isBefore(startTime)) {
-//			System.out.println("Extending peakStart");
-//			peakStart = new Time(peakStart.getHour()+24, peakStart.getMin(), peakStart.getSecond());
-//		}
-//		
-//		if (endTime.isBefore(startTime)) {
-//			System.out.println("Extending endTime");
-//			endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
-//		}		
-		
-		ArrayList<PeakPeriod> peakPeriod = new ArrayList<PeakPeriod>();
 		SortedSet<lolClass> t = new TreeSet<lolClass>();
-		
-		/* SHIT STARTS HERE */
 		
 		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
 		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
@@ -85,29 +65,8 @@ public class Scratch {
 			peakEndTimeStamp = peakEndTimeStamp.addDay();
 		}
 		
-//		PeakPeriod temp = new PeakPeriod(new TimeStamp(peakStart, startDate), new TimeStamp(peakEnd, startDate));
-//		
-//		peakPeriod.add(temp);
-//		t.add(new lolClass("start1", temp.getStart()));
-//		t.add(new lolClass("end1", temp.getEnd()));
-//		
-//		PeakPeriod temp1 = new PeakPeriod(new TimeStamp(peakStart, endDate), new TimeStamp(peakEnd, endDate));
-//		
-//		peakPeriod.add(temp1);
-//		t.add(new lolClass("start2", temp1.getStart()));
-//		t.add(new lolClass("end2", temp1.getEnd()));
-		
-		/* SHIT ENDS HERE */
-		
-//		for (int i = 0; i < 2 /* Duration.inDays(startTimeStamp, endTimeStamp)*/; i++) {
-//			
-//			PeakPeriod temp = new PeakPeriod(new TimeStamp(peakStart, startDate), new TimeStamp(peakEnd, endDate));
-//			
-//			peakPeriod.add(temp);
-//			t.add(new lolClass("start", temp.getStart()));
-//			t.add(new lolClass("end", temp.getEnd()));
-//		}
-		
+		t.add(new lolClass("start", peakStartTimeStamp));
+		t.add(new lolClass("end", peakEndTimeStamp));		
 		t.add(new lolClass("final", endTimeStamp));
 		
 		int i = 0;
