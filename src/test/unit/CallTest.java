@@ -45,7 +45,7 @@ public class CallTest {
 	@Test
 	public void testDate() {
 		Call call = new Call(start, end);
-		Assert.assertEquals(call.date(), time.getDate().toString());
+		Assert.assertEquals(call.date().toString(), time.getDate().toString());
 	}
 
 	@Test
