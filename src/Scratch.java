@@ -42,11 +42,11 @@ public class Scratch {
 		
 		
 		
-		Time peakStart = new Time(7, 00, 00);
-		Time peakEnd = new Time(19, 00, 00);
+		Time peakStart = new Time(22, 00, 00);
+		Time peakEnd = new Time(2, 00, 00);
 		
-		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 23, 59, 00);
-		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 2, 8, 00, 00);
+		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 1, 00, 00);
+		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 1, 3, 00, 00);
 		
 		Time startTime = startTimeStamp.getTime();
 		Time endTime = endTimeStamp.getTime();
@@ -62,10 +62,12 @@ public class Scratch {
 		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
 		
 		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
+			System.out.println("Added day to peakEndTimeStamp");
 			peakEndTimeStamp = peakEndTimeStamp.addDay();
 		}
 		
 		if (peakStart.isBefore(startTime)){
+			System.out.println("Added say to PeakStartTimeStamp");
 			peakStartTimeStamp = peakStartTimeStamp.addDay();
 		}
 		
