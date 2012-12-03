@@ -120,15 +120,17 @@ public class BillingSystem {
             Time startTime = call.startTime();
             Time endTime = call.endTime();
             
-            //This is bad code
-            if (endTime.isBefore(startTime)){
-            	endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
-            }
-            
-            //This is bad code
-            if (peakEnd.isBefore(peakStart)) {
-				peakEnd = new Time(peakEnd.getHour()+24, peakEnd.getMin(), peakEnd.getSecond());
-			}
+//            //This is bad code
+//            if (endTime.isBefore(startTime)){
+//            	endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
+//            	//throw new RuntimeException("Extended endTime: " + endTime);
+//            }
+//            
+//            //This is bad code
+//            if (peakEnd.isBefore(peakStart)) {
+//				peakEnd = new Time(peakEnd.getHour()+24, peakEnd.getMin(), peakEnd.getSecond());
+//				//throw new RuntimeException("Extended peakEnd: " + peakEnd);
+//			}
             
     		long peakSeconds = 0;
     		long offpeakSeconds = 0;
@@ -156,6 +158,8 @@ public class BillingSystem {
 					}
     			}
     		}
+    		
+//    		throw new RuntimeException("peak: " + peakSeconds + ". offpeak: " + offpeakSeconds);
             
             cost = new BigDecimal(peakSeconds).multiply(tariff.peakRate()).add(new BigDecimal(offpeakSeconds).multiply(tariff.offPeakRate()));
             

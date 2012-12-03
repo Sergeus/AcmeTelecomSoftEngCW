@@ -9,6 +9,15 @@ public class Duration{
 	}
 	
 	public static long inSeconds(Time start, Time end){
-		return start.getSeconds(end) - end.getSeconds(start);
+		
+		if (end.isBefore(start)) {
+			end = new Time(end.getHour()+24, end.getMin(), end.getSecond());
+		}
+		
+//		if ((start.getSeconds(end) - end.getSeconds(start)) < 0) {
+//			throw new RuntimeException("Duration should not be negative!");
+//		}
+		
+		return end.getSeconds() - start.getSeconds();
 	}
 }

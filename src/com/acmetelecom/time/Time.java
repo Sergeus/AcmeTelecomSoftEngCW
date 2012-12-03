@@ -42,11 +42,11 @@ public class Time{
 	}
 	
 	public boolean isBefore(Time time){
-		return (getSeconds(this) < getSeconds(time));
+		return (this.getSeconds() < time.getSeconds());
 	}
 	
 	public boolean isAfter(Time time){
-		return (getSeconds(this) >= getSeconds(time));
+		return (this.getSeconds() >= time.getSeconds());
 	}
 	
 	public boolean isBetween(Time start, Time end){
@@ -56,12 +56,12 @@ public class Time{
 	/**
 	 * Returns total number of seconds for Time
 	 */
-	long getSeconds(Time t){
+	long getSeconds(){
 		long result = 0;
 		
-		result += t.getHour() * 60 * 60;
-		result += t.getMin() * 60;
-		result += t.getSecond();
+		result += this.getHour() * 60 * 60;
+		result += this.getMin() * 60;
+		result += this.getSecond();
 		
 		return result;
 	}
