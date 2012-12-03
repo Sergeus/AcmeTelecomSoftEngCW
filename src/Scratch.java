@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.joda.time.Period;
 
@@ -33,49 +36,32 @@ public class Scratch {
 		
 		
 		
-		List<Customer> c = CentralCustomerDatabase.getInstance().getCustomers();
-		TariffLibrary t = CentralTariffDatabase.getInstance();
-		
-		for (Customer customer : c) {
-			System.out.println(customer.getFullName() + " " + customer.getPhoneNumber() + " " + customer.getPricePlan());
-			System.out.println(t.tarriffFor(customer).offPeakRate() + " " + t.tarriffFor(customer).peakRate());
-		}
+//		List<Customer> c = CentralCustomerDatabase.getInstance().getCustomers();
+//		TariffLibrary t = CentralTariffDatabase.getInstance();
+//		
+//		for (Customer customer : c) {
+//			System.out.println(customer.getFullName() + " " + customer.getPhoneNumber() + " " + customer.getPricePlan());
+//			System.out.println(t.tarriffFor(customer).offPeakRate() + " " + t.tarriffFor(customer).peakRate());
+//		}
 
 		
 		
 		
 		
-//		Time peakStart = new Time(7, 0, 0);
-//		Time peakEnd = new Time(8, 0, 0);
-//		
-//		Time startTime = new TimeStamp(1970, 1, 1, 6, 45, 0).getTime();
-//		Time endTime = new TimeStamp(1970, 1, 1, 7, 15, 0).getTime();
-//		
-//		long peakSeconds = 0;
-//		long offpeakSeconds = 0;
-//		
-//		if (startTime.isBetween(peakStart, peakEnd)){
-//			System.out.println("Start in peak");
-//			
-//			if (endTime.isBefore(peakEnd)) {
-//				peakSeconds += Duration.inSeconds(startTime, endTime);
-//			} else {
-//				peakSeconds += Duration.inSeconds(startTime, peakEnd);
-//				offpeakSeconds += Duration.inSeconds(peakEnd, endTime);
-//			}
-//			
-//		} else {
-//			System.out.println("Start in offpeak");
-//			
-//			if (endTime.isBefore(peakStart)) {
-//				offpeakSeconds += Duration.inSeconds(startTime, endTime);
-//			} else {
-//				offpeakSeconds += Duration.inSeconds(startTime, peakStart);
-//				peakSeconds += Duration.inSeconds(peakStart, endTime);
-//			}
-//		}
-//		
-//		System.out.println(offpeakSeconds + " seconds off peak, " + peakSeconds + " seconds in peak");	
+		Time peakStart = new Time(7, 0, 0);
+		Time peakEnd = new Time(8, 0, 0);
+		
+		Time startTime = new TimeStamp(1970, 1, 1, 6, 45, 0).getTime();
+		Time endTime = new TimeStamp(1970, 1, 1, 7, 15, 0).getTime();
+		
+		long peakSeconds = 0;
+		long offpeakSeconds = 0;
+		
+		if (endTime.isBefore(startTime)) {
+			endTime = new Time(endTime.getHour()+24, endTime.getMin(), endTime.getSecond());
+		}
+		
+		SortedSet<Time> set = new TreeSet<Time>();
 				
 		
 	}

@@ -4,7 +4,7 @@ package com.acmetelecom.time;
  * Represents the time of day (ie. 13:43:16)
  *
  */
-public class Time{
+public class Time implements Comparable<Time>{
 		
 	private final int hour, min, second;
 	
@@ -69,6 +69,21 @@ public class Time{
 	@Override
 	public String toString() {
 		return String.format("%d:%d:%d", hour, min, second);
+	}
+
+	@Override
+	//TODO Test this mother
+	public int compareTo(Time o) {
+		
+		if (this.getSeconds() < o.getSeconds()) {
+			return -1;
+		}
+		
+		if (this.getSeconds() == o.getSeconds()) {
+			return 0;
+		}
+		
+		return 1;
 	}
 		
 }
