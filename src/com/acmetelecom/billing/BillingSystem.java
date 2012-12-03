@@ -150,15 +150,9 @@ public class BillingSystem {
     		t.add(new lolClass("final", endTimeStamp));
     		
     		int i = 0;
-    		StringBuilder sb = new StringBuilder();
     		for (lolClass e : t) {
-    			sb.append(i++ + " " + e.getType() + " " + e.getTime().getTime() + "\n");
     			System.out.println(i++ + " " + e.getType() + " " + e.getTime().getTime());
     		}
-    		
-//    		if (true) {
-//				throw new RuntimeException(sb.toString());
-//			}
     		
     		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
     		
@@ -170,11 +164,11 @@ public class BillingSystem {
     					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)) {
     						System.out.println("A");
     						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
-//    						throw new RuntimeException("A - peak: " + peakSeconds + ". off-peak: " + offpeakSeconds);
+//    						throw new RuntimeException("A - startOfPeriod: " + startOfPeriod.getDate() + startOfPeriod.getTime() + ". e.getTime(): " + e.getTime().getDate() +  e.getTime().getTime());
     					} else{
     						System.out.println("B");
     						offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
-//    						throw new RuntimeException("B - peak: " + peakSeconds + ". off-peak: " + offpeakSeconds);
+//    						throw new RuntimeException("B - startOfPeriod: " + startOfPeriod.getDate() + startOfPeriod.getTime() + ". e.getTime(): " + e.getTime().getDate() +  e.getTime().getTime());
     					}
     					
     					break;
@@ -183,11 +177,9 @@ public class BillingSystem {
     				if (e.getType() == "start") {
     					System.out.println("C");
     					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
-//    					throw new RuntimeException("C - peak: " + peakSeconds + ". off-peak: " + offpeakSeconds);
     				} else {
     					System.out.println("D");
     					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
-//    					throw new RuntimeException("D - peak: " + peakSeconds + ". off-peak: " + offpeakSeconds);
     				}
     				
     				startOfPeriod = e.getTime();
