@@ -1,8 +1,12 @@
 package com.acmetelecom;
 
-import org.joda.time.Duration;
-import org.joda.time.LocalDateTime;
-import org.joda.time.Period;
+import javax.swing.text.DateFormatter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Call {
     private CallEvent start;
@@ -18,19 +22,18 @@ public class Call {
     }
 
     public int durationSeconds() {
-    	Duration d = Period.fieldDifference(start.time(), end.time()).toStandardDuration();
-    	return d.toStandardSeconds().getSeconds();
+        return (int) (((end.time() - start.time()) / 1000));
     }
 
     public String date() {
-        return start.time().toString();
+        return SimpleDateFormat.getInstance().format(new Date(start.time()));
     }
 
-    public LocalDateTime startTime() {
-        return start.time();
+    public Date startTime() {
+        return new Date(start.time());
     }
 
-    public LocalDateTime endTime() {
-        return end.time();
+    public Date endTime() {
+        return new Date(end.time());
     }
 }
