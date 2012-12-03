@@ -21,6 +21,7 @@
 		<junit printsummary="yes">
 			<classpath>
 				<path refid="lib.path" />
+				<pathelement location="lib/joda-time-2.1.jar"/>
 				<pathelement location="classes/"/>
 			</classpath>
 			
