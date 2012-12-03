@@ -13,8 +13,7 @@ public class PhoneNumber {
 	
 		// Checks that arguments are right length
 		if (number.length() != 10 || countryCode.length() != 2) {
-			//TODO: Change to proper exception
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Phone number must be 12 digits long and have a country code of length 2.");
 		}
 		
 		// Checks that numbers are indeed numbers

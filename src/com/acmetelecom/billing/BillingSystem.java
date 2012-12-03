@@ -19,9 +19,11 @@ import com.acmetelecom.customer.Customer;
 import com.acmetelecom.customer.CustomerDatabase;
 import com.acmetelecom.customer.Tariff;
 import com.acmetelecom.time.Date;
+import com.acmetelecom.exceptions.CustomerNotFoundException;
 import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
 import com.acmetelecom.time.TimeStamp;
+
 
 public class BillingSystem {
 
@@ -70,7 +72,7 @@ public class BillingSystem {
         callLog.clear();
     }
     
-    public void createBillFor(String customer) throws Exception{
+    public void createBillFor(String customer) throws CustomerNotFoundException {
         List<Customer> customers = database.getCustomers();
         
         for (Customer c : customers) {
@@ -80,8 +82,7 @@ public class BillingSystem {
 			}
 		}
         
-        //TODO: Throw better exception
-        throw new Exception("Customer " + customer + " does not exist in customer database");
+        throw new CustomerNotFoundException("Customer " + customer + " does not exist in customer database");
     }
 
     private void createBillFor(Customer customer){

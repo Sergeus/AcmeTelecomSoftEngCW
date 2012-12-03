@@ -52,5 +52,14 @@ public class TimeTest {
 		
 		assertFalse(t3.isBetween(t1, t2));
 	}
+	
+	@Test
+	public void CompareToTest() {
+		assertTrue(t2.compareTo(t3) == -1);
+		assertTrue(t3.compareTo(t2) == 1);
+		assertTrue(t2.compareTo(t4) == 0);
+		
+		assertTrue(t1.compareTo(t4) == -1);
+	}
 
 }
