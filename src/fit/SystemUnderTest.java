@@ -1,7 +1,7 @@
 package fit;
 
 
-import com.acmetelecom.billing.BillGenerator;
+import com.acmetelecom.billGenerator.BillGenerator;
 import com.acmetelecom.billing.BillingSystem;
 import com.acmetelecom.fakes.FakePrinter;
 

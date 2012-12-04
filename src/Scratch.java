@@ -2,8 +2,8 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.acmetelecom.EventType;
-import com.acmetelecom.EventData;
+import com.acmetelecom.billing.EventData;
+import com.acmetelecom.billing.EventType;
 import com.acmetelecom.time.Date;
 import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;

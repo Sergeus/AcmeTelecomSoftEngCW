@@ -1,6 +1,5 @@
 package com.acmetelecom.calls;
 
-import com.acmetelecom.PhoneNumber;
 import com.acmetelecom.time.TimeStamp;
 
 public abstract class CallEvent {

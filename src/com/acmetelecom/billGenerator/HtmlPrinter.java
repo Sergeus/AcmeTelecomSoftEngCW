@@ -1,4 +1,4 @@
-package com.acmetelecom.billing;
+package com.acmetelecom.billGenerator;
 
 public class HtmlPrinter implements Printer {
 

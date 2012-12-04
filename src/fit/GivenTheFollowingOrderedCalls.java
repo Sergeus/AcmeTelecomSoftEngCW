@@ -1,7 +1,7 @@
 package fit;
 
 
-import com.acmetelecom.PhoneNumber;
+import com.acmetelecom.calls.PhoneNumber;
 import com.acmetelecom.time.TimeStamp;
 
 public class GivenTheFollowingOrderedCalls extends ColumnFixture {

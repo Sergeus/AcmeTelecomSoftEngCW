@@ -1,6 +1,6 @@
 package com.acmetelecom.fakes;
 
-import com.acmetelecom.billing.Printer;
+import com.acmetelecom.billGenerator.Printer;
 
 public class FakePrinter implements Printer {
 	

@@ -1,8 +1,8 @@
-package com.acmetelecom;
+package com.acmetelecom.billing;
 import com.acmetelecom.time.TimeStamp;
 
 
-public class EventData implements Comparable<EventData>{
+class EventData implements Comparable<EventData>{
 		
 		private final EventType type;
 		private final TimeStamp time;

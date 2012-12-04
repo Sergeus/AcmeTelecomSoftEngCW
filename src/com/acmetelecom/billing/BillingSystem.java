@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.acmetelecom.EventType;
-import com.acmetelecom.PhoneNumber;
-import com.acmetelecom.EventData;
+import com.acmetelecom.billGenerator.BillGenerator;
+import com.acmetelecom.billGenerator.LineItemInterface;
+import com.acmetelecom.billing.util.MoneyFormatter;
 import com.acmetelecom.calls.Call;
 import com.acmetelecom.calls.CallEnd;
 import com.acmetelecom.calls.CallEvent;
 import com.acmetelecom.calls.CallStart;
+import com.acmetelecom.calls.PhoneNumber;
 import com.acmetelecom.customer.CentralCustomerDatabase;
 import com.acmetelecom.customer.CentralTariffDatabase;
 import com.acmetelecom.customer.Customer;
@@ -34,7 +35,6 @@ public class BillingSystem {
     private final BillGenerator billGenerator;
     private final CustomerDatabase database = CentralCustomerDatabase.getInstance();
     
-    //TODO: Should BillingSystem be a singleton?
     public BillingSystem(BillGenerator billGenerator){
 		this.billGenerator = billGenerator;
 	}
@@ -114,7 +114,7 @@ public class BillingSystem {
         }
 
         BigDecimal totalBill = new BigDecimal(0);
-        List<LineItem> items = new ArrayList<LineItem>();
+        List<LineItemInterface> items = new ArrayList<LineItemInterface>();
 
         for (Call call : calls) {
 
@@ -139,14 +139,6 @@ public class BillingSystem {
     		
     		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
     		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
-    		
-//    		if (/*peakEnd.isBefore(peakStart) ||*/ peakEnd.isBefore(startTime)) {
-//    			peakEndTimeStamp = peakEndTimeStamp.addDay();
-//    		}
-//    		
-//    		if (peakStart.isBefore(startTime)){
-//    			peakStartTimeStamp = peakStartTimeStamp.addDay();
-//    		}
     		
     		t.add(new EventData(EventType.PEAK_START, peakStartTimeStamp));
     		t.add(new EventData(EventType.PEAK_END, peakEndTimeStamp));
@@ -198,8 +190,6 @@ public class BillingSystem {
     			
     		}
     		
-//    		throw new RuntimeException("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
-            
             cost = new BigDecimal(peakSeconds).multiply(tariff.peakRate()).add(new BigDecimal(offpeakSeconds).multiply(tariff.offPeakRate()));
             
             cost = cost.setScale(0, RoundingMode.HALF_UP);
@@ -215,7 +205,7 @@ public class BillingSystem {
     	callLog.clear();
     }
 
-    static class LineItem {
+    static class LineItem implements LineItemInterface {
         private Call call;
         private BigDecimal callCost;
 
