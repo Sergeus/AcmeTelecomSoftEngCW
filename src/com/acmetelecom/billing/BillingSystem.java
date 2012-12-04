@@ -3,6 +3,7 @@ package com.acmetelecom.billing;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -159,19 +160,22 @@ public class BillingSystem {
     		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
     		
     		TimeStamp startOfPeriod = startTimeStamp;
-    		for (lolClass e : t) {
+    		
+    		Iterator<lolClass> it = t.iterator();
+    		while (it.hasNext()) {
+    			lolClass e = (lolClass) it.next();
+    			
     			if (!e.getTime().isBefore(startTimeStamp)) {
+    				//System.out.println(e.getType() + " " + e.getTime().getTime());
     				if (e.getType() == "final") {
     					
-    					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)
-    							|| e.getTime().isBetween(peakStartTimeStamp.addDay(), peakEndTimeStamp.addDay())) {
+    					// Problem is here
+    					if (it.next().getType() == "end") {
     						System.out.println("A");
     						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
-//    						throw new RuntimeException("A - startOfPeriod: " + startOfPeriod.getDate() + startOfPeriod.getTime() + ". e.getTime(): " + e.getTime().getDate() +  e.getTime().getTime());
     					} else{
     						System.out.println("B");
     						offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
-//    						throw new RuntimeException("B - startOfPeriod: " + startOfPeriod.getDate() + startOfPeriod.getTime() + ". e.getTime(): " + e.getTime().getDate() +  e.getTime().getTime());
     					}
     					
     					break;
@@ -189,6 +193,7 @@ public class BillingSystem {
     				System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
     				
     			}
+    			
     		}
     		
 //    		throw new RuntimeException("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
