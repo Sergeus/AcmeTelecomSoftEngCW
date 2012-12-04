@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -43,10 +44,10 @@ public class Scratch {
 		
 		
 		Time peakStart = new Time(22, 00, 00);
-		Time peakEnd = new Time(2, 00, 00);
+		Time peakEnd = new Time(02, 00, 00);
 		
-		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 1, 00, 00);
-		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 1, 3, 00, 00);
+		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 21, 00, 00);
+		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 2, 01, 00, 00);
 		
 		Time startTime = startTimeStamp.getTime();
 		Time endTime = endTimeStamp.getTime();
@@ -61,18 +62,20 @@ public class Scratch {
 		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
 		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
 		
-		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
-			System.out.println("Added day to peakEndTimeStamp");
-			peakEndTimeStamp = peakEndTimeStamp.addDay();
-		}
-		
-		if (peakStart.isBefore(startTime)){
-			System.out.println("Added say to PeakStartTimeStamp");
-			peakStartTimeStamp = peakStartTimeStamp.addDay();
-		}
+//		if (/*peakEnd.isBefore(peakStart) ||*/ peakEnd.isBefore(startTime)) {
+//			System.out.println("Added day to peakEndTimeStamp");
+//			peakEndTimeStamp = peakEndTimeStamp.addDay();
+//		}
+//		
+//		if (peakStart.isBefore(startTime)){
+//			System.out.println("Added say to PeakStartTimeStamp");
+//			peakStartTimeStamp = peakStartTimeStamp.addDay();
+//		}
 		
 		t.add(new lolClass("start", peakStartTimeStamp));
-		t.add(new lolClass("end", peakEndTimeStamp));		
+		t.add(new lolClass("end", peakEndTimeStamp));
+		t.add(new lolClass("start", peakStartTimeStamp.addDay()));
+		t.add(new lolClass("end", peakEndTimeStamp.addDay()));
 		t.add(new lolClass("final", endTimeStamp));
 		
 		int i = 0;
@@ -83,11 +86,17 @@ public class Scratch {
 		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
 		
 		TimeStamp startOfPeriod = startTimeStamp;
-		for (lolClass e : t) {
+		
+		Iterator<lolClass> it = t.iterator();
+		while (it.hasNext()) {
+			lolClass e = (lolClass) it.next();
+			
 			if (!e.getTime().isBefore(startTimeStamp)) {
+				//System.out.println(e.getType() + " " + e.getTime().getTime());
 				if (e.getType() == "final") {
 					
-					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)) {
+					// Problem is here
+					if (it.next().getType() == "end") {
 						System.out.println("A");
 						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
 					} else{
@@ -110,7 +119,40 @@ public class Scratch {
 				System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
 				
 			}
+			
 		}
+		
+//		for (lolClass e : t) {
+//			if (!e.getTime().isBefore(startTimeStamp)) {
+//				//System.out.println(e.getType() + " " + e.getTime().getTime());
+//				if (e.getType() == "final") {
+//					
+//					// Problem is here
+//					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)
+//							|| e.getTime().isBetween(peakStartTimeStamp.addDay(), peakEndTimeStamp.addDay())) {
+//						System.out.println("A");
+//						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//					} else{
+//						System.out.println("B");
+//						offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//					}
+//					
+//					break;
+//				}
+//				
+//				if (e.getType() == "start") {
+//					System.out.println("C");
+//					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//				} else {
+//					System.out.println("D");
+//					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//				}
+//				
+//				startOfPeriod = e.getTime();
+//				System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
+//				
+//			}
+//		}
 		
 //		if (endTime.isBefore(t.first().getTime())) {
 //			

@@ -137,16 +137,18 @@ public class BillingSystem {
     		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
     		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
     		
-    		if (/*peakEnd.isBefore(peakStart) ||*/ peakEnd.isBefore(startTime)) {
-    			peakEndTimeStamp = peakEndTimeStamp.addDay();
-    		}
-    		
-    		if (peakStart.isBefore(startTime)){
-    			peakStartTimeStamp = peakStartTimeStamp.addDay();
-    		}
+//    		if (/*peakEnd.isBefore(peakStart) ||*/ peakEnd.isBefore(startTime)) {
+//    			peakEndTimeStamp = peakEndTimeStamp.addDay();
+//    		}
+//    		
+//    		if (peakStart.isBefore(startTime)){
+//    			peakStartTimeStamp = peakStartTimeStamp.addDay();
+//    		}
     		
     		t.add(new lolClass("start", peakStartTimeStamp));
-    		t.add(new lolClass("end", peakEndTimeStamp));		
+    		t.add(new lolClass("end", peakEndTimeStamp));
+    		t.add(new lolClass("start", peakStartTimeStamp.addDay()));
+    		t.add(new lolClass("end", peakEndTimeStamp.addDay()));
     		t.add(new lolClass("final", endTimeStamp));
     		
     		int i = 0;
@@ -161,7 +163,8 @@ public class BillingSystem {
     			if (!e.getTime().isBefore(startTimeStamp)) {
     				if (e.getType() == "final") {
     					
-    					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)) {
+    					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)
+    							|| e.getTime().isBetween(peakStartTimeStamp.addDay(), peakEndTimeStamp.addDay())) {
     						System.out.println("A");
     						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
 //    						throw new RuntimeException("A - startOfPeriod: " + startOfPeriod.getDate() + startOfPeriod.getTime() + ". e.getTime(): " + e.getTime().getDate() +  e.getTime().getTime());
