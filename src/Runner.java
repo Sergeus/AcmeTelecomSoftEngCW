@@ -1,5 +1,6 @@
-import com.acmetelecom.billGenerator.*;
-import com.acmetelecom.billing.*;
+import com.acmetelecom.billGenerator.BillGenerator;
+import com.acmetelecom.billGenerator.HtmlPrinter;
+import com.acmetelecom.billing.BillingSystem;
 
 /**
  * 
