@@ -44,7 +44,6 @@ public class TimeStamp implements Comparable<TimeStamp>{
 	}
 
 	@Override
-	//TODO test this
 	public int compareTo(TimeStamp o) {
 		return dateTime.compareTo(o.dateTime);
 	}
