@@ -77,14 +77,13 @@ public class Time implements Comparable<Time> {
 	}
 
 	@Override
-	//TODO Test this mother
 	public int compareTo(Time o) {
 		
-		if (this.getSeconds() < o.getSeconds()) {
+		if (this.isBefore(o)) {
 			return -1;
 		}
 		
-		if (this.getSeconds() == o.getSeconds()) {
+		if (this.isEqual(o)) {
 			return 0;
 		}
 		

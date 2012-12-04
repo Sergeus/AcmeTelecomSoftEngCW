@@ -1,7 +1,9 @@
+import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.acmetelecom.lolClass;
+import com.acmetelecom.EventType;
+import com.acmetelecom.EventData;
 import com.acmetelecom.time.Date;
 import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
@@ -43,10 +45,10 @@ public class Scratch {
 		
 		
 		Time peakStart = new Time(22, 00, 00);
-		Time peakEnd = new Time(2, 00, 00);
+		Time peakEnd = new Time(02, 00, 00);
 		
-		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 1, 00, 00);
-		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 1, 3, 00, 00);
+		TimeStamp startTimeStamp = new TimeStamp(2000, 1, 1, 21, 00, 00);
+		TimeStamp endTimeStamp = new TimeStamp(2000, 1, 2, 01, 00, 00);
 		
 		Time startTime = startTimeStamp.getTime();
 		Time endTime = endTimeStamp.getTime();
@@ -56,38 +58,46 @@ public class Scratch {
 		long peakSeconds = 0;
 		long offpeakSeconds = 0;
 		
-		SortedSet<lolClass> t = new TreeSet<lolClass>();
+		SortedSet<EventData> t = new TreeSet<EventData>();
 		
 		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
 		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
 		
-		if (peakEnd.isBefore(peakStart) || peakEnd.isBefore(startTime)) {
-			System.out.println("Added day to peakEndTimeStamp");
-			peakEndTimeStamp = peakEndTimeStamp.addDay();
-		}
+//		if (/*peakEnd.isBefore(peakStart) ||*/ peakEnd.isBefore(startTime)) {
+//			System.out.println("Added day to peakEndTimeStamp");
+//			peakEndTimeStamp = peakEndTimeStamp.addDay();
+//		}
+//		
+//		if (peakStart.isBefore(startTime)){
+//			System.out.println("Added say to PeakStartTimeStamp");
+//			peakStartTimeStamp = peakStartTimeStamp.addDay();
+//		}
 		
-		if (peakStart.isBefore(startTime)){
-			System.out.println("Added say to PeakStartTimeStamp");
-			peakStartTimeStamp = peakStartTimeStamp.addDay();
-		}
-		
-		t.add(new lolClass("start", peakStartTimeStamp));
-		t.add(new lolClass("end", peakEndTimeStamp));		
-		t.add(new lolClass("final", endTimeStamp));
+		t.add(new EventData(EventType.PEAK_START, peakStartTimeStamp));
+		t.add(new EventData(EventType.PEAK_END, peakEndTimeStamp));
+		t.add(new EventData(EventType.PEAK_START, peakStartTimeStamp.addDay()));
+		t.add(new EventData(EventType.PEAK_END, peakEndTimeStamp.addDay()));
+		t.add(new EventData(EventType.CALL_END, endTimeStamp));
 		
 		int i = 0;
-		for (lolClass e : t) {
+		for (EventData e : t) {
 			System.out.println(i++ + " " + e.getType() + " " + e.getTime().getTime());
 		}
 		
 		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
 		
 		TimeStamp startOfPeriod = startTimeStamp;
-		for (lolClass e : t) {
+		
+		Iterator<EventData> it = t.iterator();
+		while (it.hasNext()) {
+			EventData e = (EventData) it.next();
+			
 			if (!e.getTime().isBefore(startTimeStamp)) {
-				if (e.getType() == "final") {
+				//System.out.println(e.getType() + " " + e.getTime().getTime());
+				if (e.getType() == EventType.CALL_END) {
 					
-					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)) {
+					// Problem is here
+					if (it.next().getType() == EventType.PEAK_END) {
 						System.out.println("A");
 						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
 					} else{
@@ -98,7 +108,7 @@ public class Scratch {
 					break;
 				}
 				
-				if (e.getType() == "start") {
+				if (e.getType() == EventType.PEAK_START) {
 					System.out.println("C");
 					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
 				} else {
@@ -110,7 +120,40 @@ public class Scratch {
 				System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
 				
 			}
+			
 		}
+		
+//		for (lolClass e : t) {
+//			if (!e.getTime().isBefore(startTimeStamp)) {
+//				//System.out.println(e.getType() + " " + e.getTime().getTime());
+//				if (e.getType() == "final") {
+//					
+//					// Problem is here
+//					if (e.getTime().isBetween(peakStartTimeStamp, peakEndTimeStamp)
+//							|| e.getTime().isBetween(peakStartTimeStamp.addDay(), peakEndTimeStamp.addDay())) {
+//						System.out.println("A");
+//						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//					} else{
+//						System.out.println("B");
+//						offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//					}
+//					
+//					break;
+//				}
+//				
+//				if (e.getType() == "start") {
+//					System.out.println("C");
+//					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//				} else {
+//					System.out.println("D");
+//					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
+//				}
+//				
+//				startOfPeriod = e.getTime();
+//				System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
+//				
+//			}
+//		}
 		
 //		if (endTime.isBefore(t.first().getTime())) {
 //			
