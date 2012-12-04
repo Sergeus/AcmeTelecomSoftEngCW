@@ -5,6 +5,10 @@ import com.acmetelecom.time.Duration;
 import com.acmetelecom.time.Time;
 import com.acmetelecom.time.TimeStamp;
 
+/**
+ * Holds all the information about a particular call
+ *
+ */
 public class Call {
     private CallEvent start;
     private CallEvent end;
