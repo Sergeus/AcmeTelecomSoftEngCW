@@ -1,5 +1,9 @@
 package com.acmetelecom.time;
 
+/**
+ * Represents date in time (ie. 12-11-2012)
+ * @Immutable
+ */
 public class Date{
 	
 	private final int year, month, day;
@@ -14,10 +18,16 @@ public class Date{
 		return year;
 	}
 	
+	/**
+	 * @return month of year
+	 */
 	public int getMonth(){
 		return month;
 	}
 	
+	/**
+	 * @return day of month
+	 */
 	public int getDay(){
 		return day;
 	}

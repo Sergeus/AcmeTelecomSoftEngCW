@@ -2,6 +2,11 @@ package com.acmetelecom.billing;
 
 import com.acmetelecom.time.Time;
 
+/**
+ * 
+ * @Static
+ * @Singleton
+ */
 public class DaytimePeakPeriod {
 	
 	private static Time startTime;
@@ -37,10 +42,5 @@ public class DaytimePeakPeriod {
 	public static Time getPeakEnd(){
 		return endTime;
 	}
-
-    public boolean offPeak(Time time) {
-        return (time.getHour() < startTime.getHour() ||
-        		 time.getHour() >= endTime.getHour());
-    }
     
 }

@@ -2,6 +2,11 @@ package com.acmetelecom.time;
 
 import org.joda.time.Period;
 
+/**
+ * Static class which helps determine duration between two Times/TimeStamps
+ * @Static
+ *
+ */
 public class Duration{
 	
 	public static long inSeconds(TimeStamp start, TimeStamp end){
@@ -21,6 +26,6 @@ public class Duration{
 			end = new Time(end.getHour()+24, end.getMin(), end.getSecond());
 		}
 		
-		return end.getSeconds() - start.getSeconds();
+		return end.getAllSeconds() - start.getAllSeconds();
 	}
 }

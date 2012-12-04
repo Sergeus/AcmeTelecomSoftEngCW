@@ -15,7 +15,6 @@ public class BillGenerator {
 
     public void send(Customer customer, List<LineItemInterface> calls, String totalBill) {
 
-        //Printer printer = HtmlPrinter.getInstance();
         printer.printHeading(customer.getFullName(), customer.getPhoneNumber(), customer.getPricePlan());
         for (LineItemInterface call : calls) {
             printer.printItem(call.date(), call.callee(), call.durationMinutes(), MoneyFormatter.penceToPounds(call.cost()));

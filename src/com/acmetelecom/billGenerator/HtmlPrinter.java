@@ -1,5 +1,9 @@
 package com.acmetelecom.billGenerator;
 
+/**
+ * 
+ * @Singleton
+ */
 public class HtmlPrinter implements Printer {
 
     private static Printer instance = new HtmlPrinter();

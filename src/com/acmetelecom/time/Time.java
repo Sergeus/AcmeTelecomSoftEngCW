@@ -2,7 +2,7 @@ package com.acmetelecom.time;
 
 /**
  * Represents the time of day (ie. 13:43:16)
- *
+ * @Immutable
  */
 public class Time implements Comparable<Time> {
 		
@@ -42,15 +42,15 @@ public class Time implements Comparable<Time> {
 	}
 	
 	public boolean isBefore(Time time){
-		return (this.getSeconds() < time.getSeconds());
+		return (this.getAllSeconds() < time.getAllSeconds());
 	}
 	
 	public boolean isAfter(Time time){
-		return (this.getSeconds() > time.getSeconds());
+		return (this.getAllSeconds() > time.getAllSeconds());
 	}
 	
 	public boolean isEqual(Time time){
-		return (this.getSeconds() == time.getSeconds());
+		return (this.getAllSeconds() == time.getAllSeconds());
 	}
 	
 	public boolean isBetween(Time start, Time end){
@@ -61,7 +61,7 @@ public class Time implements Comparable<Time> {
 	/**
 	 * Returns total number of seconds for Time
 	 */
-	long getSeconds(){
+	long getAllSeconds(){
 		long result = 0;
 		
 		result += this.getHour() * 60 * 60;
