@@ -1,7 +1,11 @@
 package com.acmetelecom.calls;
 
 import com.acmetelecom.time.TimeStamp;
-
+/**
+ * 
+ * Implements call event for the start of calls
+ *
+ */
 public class CallStart extends CallEvent {
 	@Deprecated
     public CallStart(String caller, String callee){

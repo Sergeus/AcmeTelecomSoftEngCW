@@ -2,6 +2,10 @@ package com.acmetelecom.calls;
 
 import com.acmetelecom.time.TimeStamp;
 
+/**
+ * Defines the makeup of a call
+ *
+ */
 public abstract class CallEvent {
     private PhoneNumber caller;
     private PhoneNumber callee;

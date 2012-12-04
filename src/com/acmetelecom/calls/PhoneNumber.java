@@ -1,5 +1,9 @@
 package com.acmetelecom.calls;
 
+/**
+ * Defines the format of a phone number 
+ *
+ */
 public class PhoneNumber {
 	
 	private Long number;

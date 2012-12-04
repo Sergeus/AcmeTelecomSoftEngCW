@@ -2,6 +2,11 @@ package com.acmetelecom.calls;
 
 import com.acmetelecom.time.TimeStamp;
 
+/**
+ * 
+ * Implements calls event for the end of calls
+ *
+ */
 public class CallEnd extends CallEvent {
 	@Deprecated
     public CallEnd(String caller, String callee){
