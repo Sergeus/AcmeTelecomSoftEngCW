@@ -2,17 +2,17 @@ package com.acmetelecom;
 import com.acmetelecom.time.TimeStamp;
 
 
-public class lolClass implements Comparable<lolClass>{
+public class EventData implements Comparable<EventData>{
 		
-		private final String type;
+		private final EventType type;
 		private final TimeStamp time;
 		
-		public lolClass(String type, TimeStamp time) {
+		public EventData(EventType type, TimeStamp time) {
 			this.time = time;
 			this.type = type;
 		}
 		
-		public String getType(){
+		public EventType getType(){
 			return type;
 		}
 		
@@ -21,7 +21,7 @@ public class lolClass implements Comparable<lolClass>{
 		}
 
 		@Override
-		public int compareTo(lolClass o) {
+		public int compareTo(EventData o) {
 			return time.compareTo(o.time);
 		}
 		

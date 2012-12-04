@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.acmetelecom.EventType;
 import com.acmetelecom.PhoneNumber;
-import com.acmetelecom.lolClass;
+import com.acmetelecom.EventData;
 import com.acmetelecom.calls.Call;
 import com.acmetelecom.calls.CallEnd;
 import com.acmetelecom.calls.CallEvent;
@@ -133,7 +134,7 @@ public class BillingSystem {
     		long peakSeconds = 0;
     		long offpeakSeconds = 0;
     		
-    		SortedSet<lolClass> t = new TreeSet<lolClass>();
+    		SortedSet<EventData> t = new TreeSet<EventData>();
     		
     		TimeStamp peakStartTimeStamp = new TimeStamp(peakStart, startDate);
     		TimeStamp peakEndTimeStamp = new TimeStamp(peakEnd, startDate);
@@ -146,14 +147,14 @@ public class BillingSystem {
 //    			peakStartTimeStamp = peakStartTimeStamp.addDay();
 //    		}
     		
-    		t.add(new lolClass("start", peakStartTimeStamp));
-    		t.add(new lolClass("end", peakEndTimeStamp));
-    		t.add(new lolClass("start", peakStartTimeStamp.addDay()));
-    		t.add(new lolClass("end", peakEndTimeStamp.addDay()));
-    		t.add(new lolClass("final", endTimeStamp));
+    		t.add(new EventData(EventType.PEAK_START, peakStartTimeStamp));
+    		t.add(new EventData(EventType.PEAK_END, peakEndTimeStamp));
+    		t.add(new EventData(EventType.PEAK_START, peakStartTimeStamp.addDay()));
+    		t.add(new EventData(EventType.PEAK_END, peakEndTimeStamp.addDay()));
+    		t.add(new EventData(EventType.CALL_END, endTimeStamp));
     		
     		int i = 0;
-    		for (lolClass e : t) {
+    		for (EventData e : t) {
     			System.out.println(i++ + " " + e.getType() + " " + e.getTime().getTime());
     		}
     		
@@ -161,16 +162,16 @@ public class BillingSystem {
     		
     		TimeStamp startOfPeriod = startTimeStamp;
     		
-    		Iterator<lolClass> it = t.iterator();
+    		Iterator<EventData> it = t.iterator();
     		while (it.hasNext()) {
-    			lolClass e = (lolClass) it.next();
+    			EventData e = (EventData) it.next();
     			
     			if (!e.getTime().isBefore(startTimeStamp)) {
     				//System.out.println(e.getType() + " " + e.getTime().getTime());
-    				if (e.getType() == "final") {
+    				if (e.getType() == EventType.CALL_END) {
     					
     					// Problem is here
-    					if (it.next().getType() == "end") {
+    					if (it.next().getType() == EventType.PEAK_END) {
     						System.out.println("A");
     						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
     					} else{
@@ -181,7 +182,7 @@ public class BillingSystem {
     					break;
     				}
     				
-    				if (e.getType() == "start") {
+    				if (e.getType() == EventType.PEAK_START) {
     					System.out.println("C");
     					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
     				} else {

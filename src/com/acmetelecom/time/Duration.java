@@ -8,9 +8,9 @@ public class Duration{
 		
 		long result = Period.fieldDifference(start.getDateTime(), end.getDateTime()).toStandardDuration().getStandardSeconds();
 		
-		if (result == 0) {
-			throw new RuntimeException("Duration is zero. Start: " + start.getDate() + start.getTime() + ". End: " + end.getDate() + end.getTime());
-		}
+//		if (result == 0) {
+//			throw new RuntimeException("Duration is zero. Start: " + start.getDate() + start.getTime() + ". End: " + end.getDate() + end.getTime());
+//		}
 		
 		return result;
 	}
@@ -29,9 +29,9 @@ public class Duration{
 //			throw new RuntimeException("Duration should not be negative!");
 //		}
 		
-		if (end.getSeconds() - start.getSeconds() == 0) {
-			throw new RuntimeException("Difference is zero");
-		}
+//		if (end.getSeconds() - start.getSeconds() == 0) {
+//			throw new RuntimeException("Difference is zero");
+//		}
 		
 		return end.getSeconds() - start.getSeconds();
 	}
