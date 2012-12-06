@@ -146,48 +146,37 @@ public class BillingSystem {
     		t.add(new EventData(EventType.PEAK_END, peakEndTimeStamp.addDay()));
     		t.add(new EventData(EventType.CALL_END, endTimeStamp));
     		
-    		int i = 0;
-    		for (EventData e : t) {
-    			System.out.println(i++ + " " + e.getType() + " " + e.getTime().getTime());
-    		}
-    		
-    		System.out.println("startTime: " + startTime + ". endTime: " + endTime);
-    		
     		TimeStamp startOfPeriod = startTimeStamp;
     		
     		Iterator<EventData> it = t.iterator();
     		while (it.hasNext()) {
     			EventData e = (EventData) it.next();
     			
+    			// Ignore all events before startTimeStamp
     			if (!e.getTime().isBefore(startTimeStamp)) {
-    				//System.out.println(e.getType() + " " + e.getTime().getTime());
+    				// If we are dealing with the call end event
     				if (e.getType() == EventType.CALL_END) {
     					
-    					// Problem is here
     					if (it.next().getType() == EventType.PEAK_END) {
-    						System.out.println("A");
     						peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
     					} else{
-    						System.out.println("B");
     						offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
     					}
     					
     					break;
     				}
     				
+    				// All other events
+    				
     				if (e.getType() == EventType.PEAK_START) {
-    					System.out.println("C");
     					offpeakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
     				} else {
-    					System.out.println("D");
     					peakSeconds += Duration.inSeconds(startOfPeriod, e.getTime());
     				}
     				
     				startOfPeriod = e.getTime();
-    				System.out.println("peak seconds: " + peakSeconds + ". off-peak seconds: " + offpeakSeconds);
     				
     			}
-    			
     		}
     		
             cost = new BigDecimal(peakSeconds).multiply(tariff.peakRate()).add(new BigDecimal(offpeakSeconds).multiply(tariff.offPeakRate()));
